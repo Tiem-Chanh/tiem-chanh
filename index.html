@@ -2,945 +2,1217 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quầy Bán Chanh 🍋</title>
-    <style>
-        :root {
-            --bg-dark: #0d1b2a;
-            --card-bg: #1b263b;
-            --accent-yellow: #ffff00;
-            --text-main: #ffffff;
-            --border-color: #415a77;
-            --sidebar-bg: #111e38;
-            --font-size: 16px;
-        }
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="description"
+          content="Tiệm Chanh — đọc những câu chuyện hay, chăm một khu vườn nhỏ.">
+    <title>Tiệm Chanh — Một trang sách, một mầm xanh</title>
 
-        body.light-mode {
-            --bg-dark: #f0f2f5;
-            --card-bg: #ffffff;
-            --accent-yellow: #d97706;
-            --text-main: #1f2937;
-            --border-color: #d1d5db;
-            --sidebar-bg: #e5e7eb;
-        }
-
-        /* CHỐNG BÔI ĐEN / CHỐNG COPY NỘI DUNG TOÀN TRANG */
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            font-size: var(--font-size);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            transition: background 0.3s, color 0.3s;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        /* 1. THANH CÔNG CỤ TRÊN CÙNG */
-        .top-toolbar {
-            background: var(--sidebar-bg);
-            border-bottom: 1px solid var(--border-color);
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 55px;
-            box-sizing: border-box;
-            position: relative;
-        }
-
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-        }
-
-        .logo-area img {
-            height: 38px;
-            object-fit: contain;
-        }
-
-        .search-bar {
-            position: relative;
-            margin-left: 20px;
-            flex: 1;
-            max-width: 320px;
-        }
-
-        .search-bar input {
-            background: var(--bg-dark);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            padding: 6px 12px 6px 32px;
-            border-radius: 8px;
-            outline: none;
-            width: 100%;
-            box-sizing: border-box;
-            -webkit-user-select: text;
-            user-select: text;
-        }
-
-        .search-bar::before {
-            content: "🔍";
-            position: absolute;
-            left: 10px;
-            top: 7px;
-            font-size: 0.85rem;
-        }
-
-        .user-actions {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            font-size: 0.9rem;
-        }
-
-        .notif-bell {
-            position: relative;
-            cursor: pointer;
-            font-size: 1.2rem;
-        }
-
-        .notif-badge {
-            position: absolute;
-            top: -5px; right: -5px;
-            background: #ef4444;
-            color: #fff;
-            font-size: 0.65rem;
-            padding: 2px 5px;
-            border-radius: 50%;
-        }
-
-        .user-profile-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            background: rgba(255,255,255,0.05);
-            padding: 4px 10px;
-            border-radius: 20px;
-            border: 1px solid var(--border-color);
-        }
-
-        .user-profile-container {
-            position: relative;
-            width: 30px;
-            height: 30px;
-        }
-
-        .user-profile-btn img.avatar-img {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .user-profile-btn img.frame-img {
-            position: absolute;
-            top: -4px;
-            left: -4px;
-            width: 38px;
-            height: 38px;
-            pointer-events: none;
-            object-fit: contain;
-        }
-
-        /* 2. BỐ CỤC 3 KHUNG CHÍNH */
-        .main-layout {
-            display: flex;
-            flex: 1;
-            height: calc(100vh - 55px);
-            overflow: hidden;
-        }
-
-        /* Khung trái: Menu */
-        .sidebar-left {
-            width: 220px;
-            background: var(--sidebar-bg);
-            border-right: 1px solid var(--border-color);
-            padding: 15px 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            overflow-y: auto;
-        }
-
-        .sidebar-gif-container {
-            width: 100%;
-            text-align: center;
-            margin-bottom: 15px;
-            padding-top: 5px;
-        }
-
-        .sidebar-gif-container img {
-            max-width: 90%;
-            height: 80px;
-            object-fit: contain;
-            border-radius: 8px;
-        }
-
-        .nav-item {
-            padding: 10px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.2s, color 0.2s;
-            font-size: 0.95rem;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .nav-item img {
-            width: 22px;
-            height: 22px;
-            object-fit: contain;
-        }
-
-        .nav-item:hover, .nav-item.active {
-            background: var(--card-bg);
-            color: var(--accent-yellow);
-            border-left: 4px solid var(--accent-yellow);
-        }
-
-        /* Khung giữa: Nội dung */
-        .content-center {
-            flex: 1;
-            background: var(--bg-dark);
-            padding: 30px;
-            overflow-y: auto;
-        }
-
-        .view-section {
-            display: none;
-        }
-
-        .view-section.active {
-            display: block;
-        }
-
-        .card-box {
-            background: var(--card-bg);
-            border: 2px solid var(--border-color);
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .card-box h2 {
-            color: var(--accent-yellow);
-            margin-top: 0;
-            font-size: 1.4rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .grid-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .story-card {
-            background: var(--sidebar-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 12px;
-            text-align: center;
-            cursor: pointer;
-            transition: transform 0.2s, border-color 0.2s;
-        }
-
-        .story-card:hover {
-            transform: translateY(-3px);
-            border-color: var(--accent-yellow);
-        }
-
-        .story-thumb {
-            width: 100%;
-            height: 100px;
-            background: #2a3447;
-            border-radius: 6px;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
-
-        /* Khung phải: BXH Đại gia */
-        .sidebar-right {
-            width: 300px;
-            background: var(--sidebar-bg);
-            border-left: 1px solid var(--border-color);
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .preview-box {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 15px;
-        }
-
-        .preview-box h3 {
-            color: var(--accent-yellow);
-            font-size: 0.95rem;
-            margin-top: 0;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .edit-name-btn {
-            background: var(--accent-yellow);
-            color: #000;
-            border: none;
-            padding: 5px 12px;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 0.85rem;
-            margin-left: 10px;
-        }
-
-        /* TÍNH NĂNG CMT THEO ĐOẠN VỚI ICON TIN NHẮN NHỎ SÁT LỀ */
-        .chapter-paragraph {
-            position: relative;
-            padding: 8px 30px 8px 12px;
-            margin-bottom: 14px;
-            border-radius: 6px;
-            transition: background 0.2s;
-            line-height: 1.7;
-        }
-        .chapter-paragraph:hover {
-            background: rgba(255, 255, 0, 0.03);
-        }
-        .inline-comment-btn {
-            position: absolute;
-            right: 5px;
-            top: 10px;
-            background: var(--sidebar-bg);
-            border: 1px solid var(--border-color);
-            color: var(--accent-yellow);
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            cursor: pointer;
-            opacity: 0.3;
-            transition: opacity 0.2s, transform 0.2s;
-        }
-        .chapter-paragraph:hover .inline-comment-btn {
-            opacity: 1;
-            transform: scale(1.1);
-        }
-
-        /* 3. PLUGIN LỦNG LƠ GÓC PHẢI DƯỚI */
-        .floating-plugin {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--card-bg);
-            border: 2px solid var(--accent-yellow);
-            border-radius: 30px;
-            padding: 10px 15px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-            z-index: 1000;
-        }
-
-        .plugin-btn {
-            background: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            padding: 5px 10px;
-            border-radius: 15px;
-            cursor: pointer;
-            font-size: 0.85rem;
-        }
-
-        .plugin-btn:hover {
-            border-color: var(--accent-yellow);
-            color: var(--accent-yellow);
-        }
-
-        /* MODALS */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7);
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-        }
-
-        .modal-box {
-            background: var(--card-bg);
-            border: 2px solid var(--accent-yellow);
-            border-radius: 15px;
-            padding: 25px;
-            width: 90%;
-            max-width: 450px;
-            color: var(--text-main);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            -webkit-user-select: text;
-            user-select: text;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .modal-header h3 { margin: 0; color: var(--accent-yellow); }
-
-        .close-modal {
-            background: none; border: none; color: #a0aec0; font-size: 1.2rem; cursor: pointer;
-        }
-
-        .notif-item {
-            padding: 10px;
-            border-bottom: 1px solid var(--border-color);
-            font-size: 0.9rem;
-            margin-bottom: 8px;
-        }
-    </style>
+    <link rel="stylesheet" href="index.css">
 </head>
+
 <body>
+<a href="#main" class="skip-link">Đi đến nội dung chính</a>
 
-    <!-- 1. THANH CÔNG CỤ TRÊN CÙNG -->
-    <div class="top-toolbar">
-        <div class="logo-area" onclick="switchTab('home')">
-            <img src="assets/Logo.png" alt="Logo Chanh" onerror="this.style.display='none'">
-        </div>
-        
-        <div class="search-bar">
-            <input type="text" placeholder="Tìm kiếm tên truyện, tags...">
-        </div>
+<header class="header">
+    <div class="header-inner">
+        <a href="#home" class="brand" data-action="navigate" data-page="home">
+            <img data-asset="logo" alt="Logo Tiệm Chanh" width="47" height="47">
+            <span>
+          <strong>tiệm chanh<span style="color:var(--primary)">.</span></strong>
+          <small>A little reading world</small>
+        </span>
+        </a>
 
-        <div class="user-actions">
-            <div class="notif-bell" onclick="openModal('notifModal')">
-                🔔
-                <span class="notif-badge">3</span>
-            </div>
+        <form class="search" id="search-form" role="search">
+            <label for="search-input" class="sr-only">Tìm tên truyện, tác giả, thể loại</label>
+            <span id="search-icon" aria-hidden="true"></span>
+            <input id="search-input" type="search"
+                   placeholder="Tìm câu chuyện tiếp theo của bạn…"
+                   autocomplete="off">
+        </form>
 
-            <div class="user-profile-btn" id="avatarProfileBtn" onclick="switchTab('house')">
-                <div class="user-profile-container">
-                    <img src="assets/avatar.png" alt="Avatar" class="avatar-img" id="topAvatarImg" onerror="this.src='https://via.placeholder.com/30'">
-                    <img src="assets/frame.png" alt="Frame" class="frame-img" id="topFrameImg" onerror="this.style.display='none'">
-                </div>
-                <span id="topUsername">Chanh 🍋</span>
-            </div>
-
-            <span style="cursor: pointer; color: #ef4444; font-size: 0.85rem;" onclick="alert('Đã đăng xuất!')">Đăng xuất</span>
-        </div>
-    </div>
-
-    <!-- 2. BỐ CỤC 3 KHUNG CHÍNH -->
-    <div class="main-layout">
-        <!-- Khung trái -->
-        <div class="sidebar-left">
-            <div class="sidebar-gif-container">
-                <img src="assets/Gif%20nền%20navy.gif" alt="Gif Chanh" onerror="this.src='assets/Gif của navy.gif'">
-            </div>
-            <div class="nav-item active" onclick="switchTab('home')">
-                <img src="assets/Trang chủ.png" alt="Trang chủ"> Trang chủ
-            </div>
-            <div class="nav-item" onclick="switchTab('house')">
-                <img src="assets/Nhà.png" alt="Nhà"> Nhà
-            </div>
-            <div class="nav-item" onclick="switchTab('library')">
-                <img src="assets/Túi mua hàng.png" alt="Túi mua hàng"> Túi mua hàng
-            </div>
-            <div class="nav-item" onclick="switchTab('shop')">
-                <img src="assets/Cửa hàng.png" alt="Cửa hàng"> Cửa hàng
-            </div>
-            <div class="nav-item" onclick="switchTab('explore')">
-                <img src="assets/Khám phá.png" alt="Khám phá"> Khám phá
-            </div>
-            <div style="margin-top: auto;"></div>
-            <div class="nav-item" style="color: var(--accent-yellow);" onclick="switchTab('admin')">👑 Chủ tiệm</div>
-        </div>
-
-        <!-- Khung giữa: Nội dung các tab -->
-        <div class="content-center">
-            
-            <!-- TRANG CHỦ -->
-            <div id="tab-home" class="view-section active">
-                <!-- BXH Nổi Tiếng Nhất -->
-                <div class="card-box">
-                    <h2><img src="assets/Bxh tiếng.png" alt="Icon" style="width:24px;height:24px;object-fit:contain;"> BXH Nổi tiếng nhất</h2>
-                    <div class="grid-cards">
-                        <div class="story-card" onclick="selectStory('Đông Vực Cô Độc', 'Cosmic Horror cuốn hút...')">
-                            <div class="story-thumb">1️⃣ 📖</div>
-                            <b>Đông Vực Cô Độc</b>
-                        </div>
-                        <div class="story-card" onclick="selectStory('Tôi Thích Tin Tức Tố Của Cậu', 'Romance ngọt ngào...')">
-                            <div class="story-thumb">2️⃣ 📖</div>
-                            <b>Tin Tức Tố</b>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- BXH Yêu Thích Nhất (Đã khôi phục hoàn chỉnh!) -->
-                <div class="card-box">
-                    <h2><img src="assets/Bxh yêu thích.png" alt="Icon" style="width:24px;height:24px;object-fit:contain;"> BXH Yêu thích nhất</h2>
-                    <div class="grid-cards">
-                        <div class="story-card" onclick="selectStory('Hải Yến Tầm Phong', 'Thanh xuân vườn trường...')">
-                            <div class="story-thumb">1️⃣ ✨</div>
-                            <b>Hải Yến Tầm Phong</b>
-                        </div>
-                        <div class="story-card" onclick="selectStory('Đông Vực Cô Độc', 'Cosmic Horror cuốn hút...')">
-                            <div class="story-thumb">2️⃣ ✨</div>
-                            <b>Đông Vực Cô Độc</b>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-box">
-                    <h2>📚 Danh sách tất cả truyện</h2>
-                    <div class="grid-cards" id="homeStoryList">
-                        <div class="story-card" onclick="selectStory('Đông Vực Cô Độc', 'Cosmic Horror cuốn hút...')">
-                            <div class="story-thumb">📖</div>
-                            <b>Đông Vực Cô Độc</b>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- GIAO DIỆN NHÀ -->
-            <div id="tab-house" class="view-section">
-                <div class="card-box">
-                    <h2>🏠 Nhà của tôi</h2>
-                    <div style="display: flex; align-items: center; justify-content: space-between; background: var(--sidebar-bg); padding: 15px; border-radius: 10px; margin-bottom: 25px; border: 1px solid var(--border-color);">
-                        <div>
-                            <span style="font-size: 0.85rem; color: #a0aec0; display: block; margin-bottom: 4px;">Tên của tôi:</span>
-                            <span id="houseUsername" style="font-size: 1.2rem; font-weight: bold; color: var(--accent-yellow);">Chanh 🍋</span>
-                        </div>
-                        <button class="edit-name-btn" onclick="openModal('profileModal')">Sửa tên</button>
-                    </div>
-
-                    <h3 style="color: var(--accent-yellow); margin-bottom: 10px;">✨ Kho Avatar của tôi</h3>
-                    <div class="grid-cards" id="avatarVault" style="margin-bottom: 25px;">
-                        <div class="story-card" onclick="setGear('avatar', 'avatar.png')">
-                            <div class="story-thumb"><img src="assets/avatar.png" style="width:50px;height:50px;border-radius:50%;object-fit:cover;" onerror="this.src='https://via.placeholder.com/50'"></div>
-                            <b>Avatar Chanh</b>
-                            <div style="font-size: 0.75rem; color: var(--accent-yellow); margin-top: 4px;">Đặt làm Avatar</div>
-                        </div>
-                    </div>
-
-                    <h3 style="color: var(--accent-yellow); margin-bottom: 10px;">🖼️ Kho Khung Viền của tôi</h3>
-                    <div class="grid-cards" id="frameVault">
-                        <div class="story-card" onclick="setGear('frame', 'frame.png')">
-                            <div class="story-thumb"><img src="assets/frame.png" style="width:50px;height:50px;object-fit:contain;" onerror="this.src='https://via.placeholder.com/50'"></div>
-                            <b>Khung Viền Xịn</b>
-                            <div style="font-size: 0.75rem; color: var(--accent-yellow); margin-top: 4px;">Đặt làm Khung</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- BẢNG QUẢN TRỊ CHỦ TIỆM -->
-            <div id="tab-admin" class="view-section">
-                <div class="card-box">
-                    <h2>👑 Bảng Quản Trị Của Chủ Tiệm</h2>
-                    <p style="color: #9ca3af; font-size: 0.9rem; margin-bottom: 20px;">Đăng truyện, thêm chương và cập nhật kho báu độc quyền ngay tại đây!</p>
-
-                    <div style="background: var(--sidebar-bg); padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid var(--border-color);">
-                        <h3 style="color: var(--accent-yellow); margin-top:0; font-size: 1.1rem;">📖 Đăng Truyện Mới</h3>
-                        <input type="text" id="adminStoryTitle" placeholder="Tên truyện..." style="width:100%; padding:8px; background:#1a2233; border:1px solid var(--border-color); color:#fff; border-radius:6px; box-sizing:border-box; margin-bottom:10px;">
-                        <textarea id="adminStoryDesc" placeholder="Mô tả truyện..." style="width:100%; padding:8px; background:#1a2233; border:1px solid var(--border-color); color:#fff; border-radius:6px; box-sizing:border-box; margin-bottom:10px; height:60px;"></textarea>
-                        <button class="plugin-btn" style="background:var(--accent-yellow); color:#000; font-weight:bold; width:100%; padding:8px;" onclick="adminAddStory()">Đăng Truyện</button>
-                    </div>
-
-                    <div style="background: var(--sidebar-bg); padding: 15px; border-radius: 10px; border: 1px solid var(--border-color);">
-                        <h3 style="color: var(--accent-yellow); margin-top:0; font-size: 1.1rem;">🎨 Up Avatar / Khung Viền Mới</h3>
-                        <select id="adminGearType" style="width:100%; padding:8px; background:#1a2233; border:1px solid var(--border-color); color:#fff; border-radius:6px; box-sizing:border-box; margin-bottom:10px;">
-                            <option value="avatar">Avatar</option>
-                            <option value="frame">Khung Viền</option>
-                        </select>
-                        <input type="text" id="adminGearName" placeholder="Tên hiển thị..." style="width:100%; padding:8px; background:#1a2233; border:1px solid var(--border-color); color:#fff; border-radius:6px; box-sizing:border-box; margin-bottom:10px;">
-                        <input type="text" id="adminGearFile" placeholder="Tên file trong assets (vd: avt2.png)..." style="width:100%; padding:8px; background:#1a2233; border:1px solid var(--border-color); color:#fff; border-radius:6px; box-sizing:border-box; margin-bottom:10px;">
-                        <button class="plugin-btn" style="background:var(--accent-yellow); color:#000; font-weight:bold; width:100%; padding:8px;" onclick="adminAddGear()">Thêm Vào Kho</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TÚI MUA HÀNG -->
-            <div id="tab-library" class="view-section">
-                <div class="card-box">
-                    <h2>🎒 Truyện đã lưu</h2>
-                    <div class="grid-cards">
-                        <div class="story-card">
-                            <div class="story-thumb">📚</div>
-                            <b>Đông Vực Cô Độc</b>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- CỬA HÀNG -->
-            <div id="tab-shop" class="view-section">
-                <div class="card-box">
-                    <h2>🛒 Cửa hàng Tiệm Chanh</h2>
-                    <p style="color: #9ca3af; font-size: 0.9rem;">Mua sắm Avatar, khung viền độc quyền và hạt giống mầm cây!</p>
-                </div>
-            </div>
-
-            <!-- KHÁM PHÁ -->
-            <div id="tab-explore" class="view-section">
-                <div class="card-box">
-                    <h2>🧭 Khám phá theo Tags</h2>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Khung phải: BXH Đại Gia -->
-        <div class="sidebar-right" id="rightSidebar">
-            <div class="preview-box">
-                <h3><img src="assets/Đại gia.png" alt="Đại gia" style="width:20px;height:20px;object-fit:contain;"> BXH Đại Gia Xu</h3>
-                <div style="font-size: 0.85rem; line-height: 1.6; text-align: center; padding: 5px 0;">
-                    👑 <b>ABCD...</b><br>
-                    <span style="color: var(--accent-yellow); font-weight: bold;">300,000 xu chanh</span>
-                </div>
-            </div>
-            <div class="preview-box">
-                <h3><img src="assets/Đại gia.png" alt="Đại gia" style="width:20px;height:20px;object-fit:contain;"> BXH Trồng Cây</h3>
-                <div style="font-size: 0.85rem; line-height: 1.6; text-align: center; padding: 5px 0;">
-                    🌱 <b>Chanh Chanh</b><br>
-                    <span style="color: var(--accent-yellow); font-weight: bold;">50 cây chanh vàng</span>
-                </div>
-            </div>
-            <div class="preview-box">
-                <h3><img src="assets/Đại gia.png" alt="Đại gia" style="width:20px;height:20px;object-fit:contain;"> BXH Thời Gian</h3>
-                <div style="font-size: 0.85rem; line-height: 1.6; text-align: center; padding: 5px 0;">
-                    ⏳ <b>Lannyy</b><br>
-                    <span style="color: var(--accent-yellow); font-weight: bold;">1,200 giờ đọc</span>
-                </div>
-            </div>
+        <div class="header-actions">
+            <button class="icon-button quiet" data-action="settings"
+                    aria-label="Tùy chỉnh giao diện" id="settings-button"></button>
+            <button class="icon-button quiet notification" data-action="notifications"
+                    aria-label="Xem thông báo" id="notifications-button"></button>
+            <button class="profile-button" data-action="navigate" data-page="house"
+                    aria-label="Đến Nhà của bạn">
+                <span id="header-avatar"></span>
+                <span id="header-name"></span>
+            </button>
+            <button class="quiet logout row" data-action="logout"
+                    aria-label="Thông tin đăng xuất bản demo" id="logout-button"></button>
         </div>
     </div>
+</header>
 
-    <!-- 3. PLUGIN LỦNG LƠ GÓC PHẢI DƯỚI -->
-    <div class="floating-plugin">
-        <button class="plugin-btn" onclick="changeFontSize(-1)">A-</button>
-        <button class="plugin-btn" onclick="changeFontSize(1)">A+</button>
-        <button class="plugin-btn" onclick="toggleTheme()">🌙/☀️</button>
-    </div>
-
-    <!-- MODAL THÔNG BÁO -->
-    <div class="modal-overlay" id="notifModal">
-        <div class="modal-box">
-            <div class="modal-header">
-                <h3>🔔 Hộp Thông Báo</h3>
-                <button class="close-modal" onclick="closeModal('notifModal')">×</button>
-            </div>
-            <div class="notif-item">📢 Chủ nhà vừa đăng chương mới truyện <i>Đông Vực Cô Độc</i>.</div>
-            <div class="notif-item">💬 Bình luận của bạn đã được chủ tiệm trả lời.</div>
+<div class="layout">
+    <aside class="sidebar" aria-label="Điều hướng chính">
+        <div class="mascot">
+            <img id="mascot" alt="Nhân vật Chanh nhảy múa" width="115" height="95">
+            <small>Hôm nay, đọc gì nhỉ?</small>
         </div>
-    </div>
+        <div class="menu-label eyebrow">Góc của bạn</div>
+        <nav class="nav" id="desktop-nav"></nav>
 
-    <!-- MODAL SỬA TÊN -->
-    <div class="modal-overlay" id="profileModal">
-        <div class="modal-box">
-            <div class="modal-header">
-                <h3>✏️ Sửa tên độc giả</h3>
-                <button class="close-modal" onclick="closeModal('profileModal')">×</button>
+        <div class="sidebar-note">
+            <div class="row">
+                <img data-asset="coin" alt="" width="25" height="25">
+                <strong style="font-size:12px">Ở lại thêm một chút</strong>
             </div>
-            <div style="margin-bottom: 15px;">
-                <label style="font-size: 0.85rem; color: #a0aec0; display:block; margin-bottom:5px;">Tên mới:</label>
-                <input type="text" id="inputUsername" value="Chanh 🍋" style="width:100%; padding:8px; background:#1a2233; border:1px solid var(--border-color); color:#fff; border-radius:6px; box-sizing:border-box;">
-            </div>
-            <button class="plugin-btn" style="background:var(--accent-yellow); color:#000; width:100%; font-weight:bold; padding:10px;" onclick="saveName()">Lưu tên mới</button>
+            <p>Mỗi 10 phút hoạt động hợp lệ, nhận thêm 1 xu chanh.</p>
+            <button class="text-button" data-action="navigate" data-page="house">
+                Ghé thăm Nhà →
+            </button>
         </div>
+        <div class="sidebar-footer">TIỆM CHANH © 2026<br>Mỗi trang sách, một mầm xanh.</div>
+    </aside>
+
+    <main id="main" tabindex="-1"></main>
+    <aside class="right-column" id="right-column" aria-label="Góc cộng đồng"></aside>
+</div>
+
+<nav class="mobile-nav" id="mobile-nav" aria-label="Điều hướng trên điện thoại"></nav>
+
+<dialog id="dialog" aria-labelledby="dialog-title">
+    <div class="dialog-heading">
+        <h2 id="dialog-title"></h2>
+        <button class="icon-button quiet" data-action="close-dialog" aria-label="Đóng">×</button>
     </div>
+    <div id="dialog-body"></div>
+</dialog>
 
-    <!-- POP-UP MINI CMT THEO ĐOẠN, THẢ TIM & EMOJI -->
-    <div class="modal-overlay" id="paraCommentModal">
-        <div class="modal-box">
-            <div class="modal-header">
-                <h3>💬 Bình luận & Thả tim đoạn này</h3>
-                <button class="close-modal" onclick="closeModal('paraCommentModal')">×</button>
-            </div>
-            <p id="targetParaText" style="font-size: 0.85rem; color: #9ca3af; font-style: italic; border-left: 3px solid var(--accent-yellow); padding-left: 8px; margin-bottom: 15px;"></p>
-            
-            <div style="background:var(--sidebar-bg); padding:10px; border-radius:8px; max-height:120px; overflow-y:auto; margin-bottom:12px; border:1px solid var(--border-color); font-size:0.85rem;">
-                <p style="margin:0 0 6px 0;"><b>Lannyy:</b> Mê đoạn này quá đi mất! 🍋</p>
-                <p style="margin:0;"><b>Chanh Chanh:</b> Chuẩn gu luon bẹn ơi ✨</p>
-            </div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
-            <div style="display:flex; gap:10px; margin-bottom:12px;">
-                <button class="plugin-btn" style="flex:1; background:var(--sidebar-bg); border-color:var(--accent-yellow);" onclick="likeParagraph()">❤️ Thả tim (<span id="likeCount">12</span>)</button>
-            </div>
+<script>
+    "use strict";
 
-            <textarea id="paraCommentInput" placeholder="Viết cảm nghĩ của bạn..." style="width:100%; height:60px; background:#1a2233; border:1px solid var(--border-color); color:#fff; border-radius:6px; box-sizing:border-box; padding:8px; margin-bottom:10px;"></textarea>
-            
-            <div style="margin-bottom: 15px;">
-                <span style="font-size: 0.75rem; color: #a0aec0; display:block; margin-bottom:5px;">Emoji cá nhân của Chanh:</span>
-                <div style="display: flex; gap: 8px;">
-                    <span onclick="insertEmoji('🍋')" style="cursor:pointer; font-size:1.2rem; background:var(--sidebar-bg); padding:4px 8px; border-radius:6px;">🍋</span>
-                    <span onclick="insertEmoji('✨')" style="cursor:pointer; font-size:1.2rem; background:var(--sidebar-bg); padding:4px 8px; border-radius:6px;">✨</span>
-                    <span onclick="insertEmoji('🐱')" style="cursor:pointer; font-size:1.2rem; background:var(--sidebar-bg); padding:4px 8px; border-radius:6px;">🐱</span>
-                    <span onclick="insertEmoji('💖')" style="cursor:pointer; font-size:1.2rem; background:var(--sidebar-bg); padding:4px 8px; border-radius:6px;">💖</span>
-                    <span onclick="insertEmoji('🥳')" style="cursor:pointer; font-size:1.2rem; background:var(--sidebar-bg); padding:4px 8px; border-radius:6px;">🥳</span>
-                </div>
-            </div>
+    /* Các tài nguyên riêng được quản lý tập trung.
+       Nếu serve thư mục public làm web root, đổi ROOT thành "assets/". */
+    const ROOT = "public/assets/";
+    const ASSETS = {
+        logo: "Logo.png",
+        coin: "Xu chanh.png",
+        home: "icon/Trang chủ.png",
+        house: "icon/Nhà.png",
+        library: "icon/Túi mua hàng.png",
+        shop: "icon/Cửa hàng.png",
+        explore: "icon/Khám phá.png",
+        hot: "icon/Bxh nổi tiếng.png",
+        favorite: "icon/Bxh yêu thích.png",
+        rich: "icon/Đại gia.png",
+        gifLight: "icon/Gif nền trắng.gif",
+        gifDark: "icon/Gif nền navy.gif"
+    };
+    const assetURL = key => ROOT + ASSETS[key].split("/").map(encodeURIComponent).join("/");
 
-            <button class="plugin-btn" style="background:var(--accent-yellow); color:#000; width:100%; font-weight:bold; padding:10px;" onclick="submitParaComment()">Gửi Bình Luận</button>
-        </div>
-    </div>
+    const ICONS = {
+        search: '<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/>',
+        settings: '<path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="3" fill="var(--bg)"/><circle cx="15" cy="17" r="3" fill="var(--bg)"/>',
+        bell: '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/>',
+        logout: '<path d="M10 4H5v16h5M9 12h12m-4-4 4 4-4 4"/>',
+        comment: '<path d="M20 11a8 8 0 0 1-8 8H5l-4 3 2-7a8 8 0 1 1 17-4Z"/>'
+    };
+    const icon = name => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"
+      aria-hidden="true">${ICONS[name] || ""}</svg>`;
 
-    <script>
-        function switchTab(tabId) {
-            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-            document.getElementById('tab-' + tabId).classList.add('active');
+    const escapeHTML = value => String(value ?? "").replace(/[&<>"']/g, character =>
+        ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[character]));
+    const uid = () => globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random()}`;
+    const number = value => Number(value || 0).toLocaleString("vi-VN");
 
-            document.querySelectorAll('.sidebar-left .nav-item').forEach(el => el.classList.remove('active'));
-            
-            const navItems = document.querySelectorAll('.sidebar-left .nav-item');
-            if(tabId === 'home') navItems[0].classList.add('active');
-            if(tabId === 'house') navItems[1].classList.add('active');
-            if(tabId === 'library') navItems[2].classList.add('active');
-            if(tabId === 'shop') navItems[3].classList.add('active');
-            if(tabId === 'explore') navItems[4].classList.add('active');
-
-            if(tabId === 'home') { resetRightSidebar(); }
+    const BOOKS = [
+        {
+            id: "dong-vuc", title: "Đông Vực Cô Độc", author: "Mộc Miên",
+            genre: "Kỳ ảo", status: "Đang cập nhật", chapters: 64, rating: "4.9",
+            reads: "12,8k", bg: "#273d4b", ink: "#efe1b9",
+            description: "Ở phía đông của bản đồ có một vùng đất không ai còn nhắc tên. Khi những lá thư từ người đã mất bắt đầu xuất hiện, An quyết định bước qua ranh giới sương mù — và tìm thấy một thế giới đang chờ được nhớ lại."
+        },
+        {
+            id: "tin-tuc-to", title: "Tôi Thích Tin Tức Tố Của Cậu", author: "Dẫn Lộ Tinh",
+            genre: "Lãng mạn", status: "Hoàn thành", chapters: 92, rating: "4.8",
+            reads: "24,5k", bg: "#d8b9ac", ink: "#4b353d",
+            description: "Có những người bước vào cuộc đời như một cơn gió rất nhẹ. Từ một cuộc gặp không hẹn trước, những ngày bình thường của hai người dần trở thành câu chuyện mà họ muốn lưu giữ lâu hơn."
+        },
+        {
+            id: "hai-yen", title: "Hải Yến Tầm Phong", author: "Thanh Hòa",
+            genre: "Thanh xuân", status: "Hoàn thành", chapters: 48, rating: "4.9",
+            reads: "18,2k", bg: "#a9c1ba", ink: "#253e3d",
+            description: "Mùa hè năm ấy, tiếng chuông xe đạp và lời hẹn dưới hàng cây đã ở lại rất lâu. Một câu chuyện về tuổi trẻ, những điều chưa kịp nói và hành trình tìm lại nhau giữa tháng năm rộng lớn."
+        },
+        {
+            id: "tiem-mua", title: "Tiệm Nhỏ Mùa Mưa", author: "An Nhiên",
+            genre: "Chữa lành", status: "Đang cập nhật", chapters: 32, rating: "4.7",
+            reads: "8,6k", bg: "#b5ad91", ink: "#393f30",
+            description: "Cuối con hẻm có một tiệm sách chỉ mở cửa vào những ngày mưa. Mỗi vị khách đến đây đều mang theo một nỗi lòng, và ra về với một câu chuyện nhỏ vừa đủ để bắt đầu lại."
+        },
+        {
+            id: "tram-sao", title: "Trạm Dừng Giữa Những Vì Sao", author: "Lam Vũ",
+            genre: "Kỳ ảo", status: "Đang cập nhật", chapters: 27, rating: "4.8",
+            reads: "6,4k", bg: "#414a72", ink: "#f2ddb2",
+            description: "Chuyến tàu cuối cùng không đưa hành khách về nhà, mà đưa họ đến nơi trái tim còn bỏ quên một lời hứa. Linh nhận công việc gác trạm, không biết rằng một người quen cũ đang trên đường đến."
+        },
+        {
+            id: "ngay-nang", title: "Hẹn Cậu Một Ngày Đầy Nắng", author: "Hạ Chi",
+            genre: "Thanh xuân", status: "Hoàn thành", chapters: 56, rating: "4.6",
+            reads: "11,3k", bg: "#e3cf94", ink: "#604830",
+            description: "Một cuốn sổ chuyền tay, một lời nhắn không ký tên và lời hẹn gặp lại vào ngày có nắng. Những mảnh ký ức rất nhỏ đã ghép thành mùa thanh xuân mà cả hai chưa từng quên."
+        },
+        {
+            id: "vuon-dem", title: "Khu Vườn Sau Nửa Đêm", author: "Mộc Miên",
+            genre: "Chữa lành", status: "Đang cập nhật", chapters: 21, rating: "4.8",
+            reads: "5,1k", bg: "#4a635a", ink: "#f2e6be",
+            description: "Khi thành phố đã ngủ, khu vườn trên sân thượng bắt đầu lên đèn. Ở đó, một người trồng cây và một người kể chuyện học cách chăm sóc những điều mong manh trong lòng."
+        },
+        {
+            id: "thu-gui", title: "Thư Gửi Những Ngày Bình Yên", author: "An Nhiên",
+            genre: "Lãng mạn", status: "Hoàn thành", chapters: 40, rating: "4.7",
+            reads: "9,2k", bg: "#a4b2c2", ink: "#283a50",
+            description: "Những bức thư không được gửi đi cuối cùng tìm thấy người nhận theo một cách rất khác. Một câu chuyện dịu dàng về khoảng cách, sự chờ đợi và lòng can đảm để nói lời yêu thương."
         }
+    ];
 
-        document.getElementById('avatarProfileBtn').addEventListener('click', function(e) {
-            e.stopPropagation();
-            switchTab('house');
+    /* Chỉ là cấu hình minh họa, không suy đoán cơ chế game Sope thực tế. */
+    const SEEDS = {
+        lemon: { name: "Chanh vàng", price: 12, duration: 30 * 60 * 1000, reward: 18 },
+        herb: { name: "Mầm bình yên", price: 8, duration: 20 * 60 * 1000, reward: 11 }
+    };
+    const AVATARS = [
+        { id: "sage", name: "Lá non", color: "#dbe7c9", price: 0 },
+        { id: "peach", name: "Nắng đào", color: "#efd2c5", price: 24 },
+        { id: "sky", name: "Mây xanh", color: "#cbdbea", price: 30 }
+    ];
+    const FRAMES = [
+        { id: "none", name: "Mộc mạc", price: 0 },
+        { id: "gold", name: "Nắng vàng", price: 35 },
+        { id: "leaf", name: "Vườn xanh", price: 28 }
+    ];
+    const NAV = [
+        ["home", "Trang chủ"], ["house", "Nhà"], ["library", "Túi mua hàng"],
+        ["shop", "Cửa hàng"], ["explore", "Khám phá"]
+    ];
+    const STORAGE_KEY = "tiem-chanh-ui-v1";
+    const defaults = {
+        name: "Chanh nhỏ", theme: "light", fontSize: 20,
+        coins: 128, lifetimeCoins: 240, onlineSeconds: 0, coinSeconds: 0,
+        favorites: ["hai-yen", "tiem-mua"], library: {},
+        avatar: "sage", frame: "none", ownedAvatars: ["sage"], ownedFrames: ["none"],
+        seeds: { lemon: 2, herb: 1 }, garden: [null, null, null, null, null, null],
+        plantsGrown: 0, reviews: [], comments: {}, bookmarks: {},
+        transactions: []
+    };
+    let state = structuredClone(defaults);
+    let storageWarning = false;
+    try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+        if (saved && typeof saved === "object" && !Array.isArray(saved)) {
+            state = { ...state, ...saved };
+        }
+    } catch {
+        storageWarning = true;
+    }
+
+    function save() {
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+        catch {
+            if (!storageWarning) toast("Không thể lưu trên thiết bị. Dữ liệu có thể mất khi tải lại.");
+            storageWarning = true;
+        }
+    }
+
+    let page = "home", selectedBook = BOOKS[0].id, chapter = 1;
+    let genre = "Tất cả", statusFilter = "all", searchQuery = "", visibleCount = 4;
+    let libraryTab = "reading", shopTab = "avatars", journalFilter = "all", rankTab = "plants";
+    let activeThread = "", replyTo = null, toastTimer;
+    const main = document.getElementById("main");
+    const dialog = document.getElementById("dialog");
+    const dialogBody = document.getElementById("dialog-body");
+    const systemTheme = matchMedia("(prefers-color-scheme: dark)");
+    const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+    const bookById = id => BOOKS.find(book => book.id === id);
+    const initials = name => name.trim().split(/\s+/).slice(-2).map(word => word[0]).join("").toUpperCase();
+    const currentColor = () => AVATARS.find(item => item.id === state.avatar)?.color || AVATARS[0].color;
+
+    function avatar(name = state.name, color = currentColor(), frame = state.frame, large = false) {
+        return `<span class="avatar ${large ? "large" : ""}" data-frame="${escapeHTML(frame)}"
+        style="--avatar-bg:${color}" aria-hidden="true">${escapeHTML(initials(name))}</span>`;
+    }
+
+    function hydrateAssets(root = document) {
+        root.querySelectorAll("[data-asset]").forEach(image => {
+            image.src = assetURL(image.dataset.asset);
         });
+    }
 
-        function selectStory(title, desc) {
-            const rightSidebar = document.getElementById('rightSidebar');
-            rightSidebar.innerHTML = `
-                <div class="preview-box">
-                    <h3>📖 Xem Truyện</h3>
-                    <h4 style="color: var(--accent-yellow); margin: 5px 0;">${title}</h4>
-                    <p style="font-size: 0.85rem; color: #9ca3af;">${desc}</p>
-                    <div class="story-actions">
-                        <button class="action-btn btn-read" onclick="readStoryDetail('${title}')">Đọc truyện</button>
-                        <button class="action-btn btn-save" onclick="alert('Đã lưu ${title} vào Túi mua hàng!')">Lưu</button>
-                    </div>
-                    <button style="background:none; border:none; color:#a0aec0; font-size:0.8rem; cursor:pointer; margin-top:10px;" onclick="resetRightSidebar()">⬅️ Quay lại BXH</button>
-                </div>
-            `;
+    /* Hỗ trợ cả cách chạy từ project root và public root.
+       Không thay icon hỏng bằng emoji hoặc icon thư viện. */
+    document.addEventListener("error", event => {
+        const image = event.target;
+        if (!(image instanceof HTMLImageElement) || image.dataset.retried) return;
+        const absoluteRoot = new URL("public/assets/", location.href).href;
+        if (image.src.startsWith(absoluteRoot)) {
+            image.dataset.retried = "true";
+            image.src = image.src.replace(absoluteRoot, new URL("assets/", location.href).href);
         }
+    }, true);
 
-        function readStoryDetail(title) {
-            const center = document.querySelector('.content-center');
-            center.innerHTML = `
-                <div class="card-box">
-                    <h2>📖 ${title}</h2>
-                    <p style="color:#a0aec0; font-size:0.85rem;">Chương 1: Khởi đầu tại Quầy Bán Chanh</p>
-                    <hr style="border-color:var(--border-color); margin:15px 0;">
-                    
-                    <div class="chapter-paragraph">
-                        Trang sách mở ra với hương vị thơm ngát của những trái chanh vàng tươi mọng nước dưới ánh nắng sớm.
-                        <div class="inline-comment-btn" onclick="openParaComment(this)" title="Bình luận đoạn này">💬</div>
-                    </div>
-                    <div class="chapter-paragraph">
-                        Chủ tiệm ngồi thảnh thơi bên góc quầy nhỏ, tay lướt nhẹ trên màn hình máy tính để hoàn thiện nốt những dòng code dở dang.
-                        <div class="inline-comment-btn" onclick="openParaComment(this)" title="Bình luận đoạn này">💬</div>
-                    </div>
-                    <div class="chapter-paragraph">
-                        Không khí xung quanh thật bình yên, tiếng gió lùa qua tán cây mang theo sự thư thái lạ kỳ.
-                        <div class="inline-comment-btn" onclick="openParaComment(this)" title="Bình luận đoạn này">💬</div>
-                    </div>
+    function applyTheme() {
+        const actual = state.theme === "system"
+            ? (systemTheme.matches ? "dark" : "light") : state.theme;
+        document.documentElement.dataset.theme = actual;
+        document.documentElement.style.setProperty("--reader-size", `${state.fontSize}px`);
+        document.querySelector('meta[name="theme-color"]').content =
+            actual === "dark" ? "#101a35" : "#ffffff";
 
-                    <!-- TIP YÊU THƯƠNG (GỬI XU CHANH) -->
-                    <div style="margin-top:30px; text-align:center; background:var(--sidebar-bg); padding:20px; border-radius:12px; border:1px solid var(--border-color);">
-                        <h4 style="color:var(--accent-yellow); margin-top:0;">💛 Gửi Tip Yêu Thương Cho Chủ Tiệm</h4>
-                        <p style="font-size:0.85rem; color:#9ca3af;">Thấy chương truyện hay, hãy tặng chủ tiệm ít xu chanh lấy động lực ra chương mới nhé!</p>
-                        <div style="display:flex; justify-content:center; gap:10px; margin-top:15px;">
-                            <button class="plugin-btn" onclick="tipCoins(100)">🍋 100 Xu</button>
-                            <button class="plugin-btn" onclick="tipCoins(500)">🍋 500 Xu</button>
-                            <button class="plugin-btn" onclick="tipCoins(1000)" style="background:var(--accent-yellow); color:#000; font-weight:bold;">🍋 1,000 Xu</button>
-                        </div>
-                    </div>
+        const mascot = document.getElementById("mascot");
+        /* GIF không thể pause bằng CSS: khi giảm chuyển động, dùng PNG sẵn có. */
+        mascot.dataset.retried = "";
+        mascot.src = assetURL(reducedMotion.matches ? "home" :
+            actual === "dark" ? "gifDark" : "gifLight");
+        mascot.alt = reducedMotion.matches ? "Nhân vật Chanh" : "Nhân vật Chanh nhảy múa";
+    }
+    systemTheme.addEventListener("change", applyTheme);
+    reducedMotion.addEventListener("change", applyTheme);
 
-                    <button class="plugin-btn" style="margin-top:20px;" onclick="switchTab('home')">⬅️ Quay lại trang chủ</button>
-                </div>
-            `;
+    function toast(message) {
+        const element = document.getElementById("toast");
+        clearTimeout(toastTimer);
+        element.textContent = message;
+        element.hidden = false;
+        toastTimer = setTimeout(() => element.hidden = true, 3500);
+    }
+
+    function openDialog(title, html) {
+        document.getElementById("dialog-title").textContent = title;
+        dialogBody.innerHTML = html;
+        hydrateAssets(dialogBody);
+        if (!dialog.open) dialog.showModal();
+    }
+
+    function navHTML() {
+        const active = ["detail", "reader"].includes(page) ? "home" : page;
+        return NAV.map(([id, label]) => `<button
+        class="nav-button" data-action="navigate" data-page="${id}"
+        ${active === id ? 'aria-current="page"' : ""}>
+        <img data-asset="${id}" alt="" width="29" height="29">
+        <span>${label}</span></button>`).join("");
+    }
+
+    function renderShell() {
+        document.body.classList.toggle("reader-mode", page === "reader");
+        document.getElementById("desktop-nav").innerHTML = navHTML();
+        document.getElementById("mobile-nav").innerHTML = navHTML();
+        document.getElementById("header-avatar").innerHTML = avatar();
+        document.getElementById("header-name").textContent = state.name;
+        document.getElementById("right-column").hidden = page === "reader";
+        hydrateAssets();
+    }
+
+    function go(nextPage, focus = true) {
+        page = nextPage;
+        render();
+        if (focus) {
+            window.scrollTo({ top: 0, behavior: "instant" });
+            main.focus({ preventScroll: true });
         }
+    }
 
-        function tipCoins(amount) {
-            alert(`Cảm ơn độc giả đã donate ${amount} xu chanh cho chủ tiệm! 🍋💛`);
-        }
+    function render() {
+        renderShell();
+        const renderers = {
+            home: renderHome, house: renderHouse, library: renderLibrary,
+            shop: renderShop, explore: renderExplore, detail: renderDetail, reader: renderReader
+        };
+        main.innerHTML = renderers[page]();
+        renderRight();
+        hydrateAssets(main);
+        const label = page === "reader" ? "Đọc truyện" :
+            page === "detail" ? bookById(selectedBook).title :
+                NAV.find(([id]) => id === page)?.[1];
+        document.title = `${label} — Tiệm Chanh`;
+    }
 
-        function openParaComment(btn) {
-            const paraText = btn.parentElement.childNodes[0].nodeValue.trim();
-            document.getElementById('targetParaText').innerText = `"${paraText}"`;
-            document.getElementById('paraCommentInput').value = "";
-            openModal('paraCommentModal');
-        }
+    function heading(kicker, title, description) {
+        return `<div class="page-heading"><div class="eyebrow">${kicker}</div>
+        <h1>${title}</h1><p>${description}</p></div>`;
+    }
 
-        function likeParagraph() {
-            let count = document.getElementById('likeCount');
-            count.innerText = parseInt(count.innerText) + 1;
-            alert('Đã thả tim đoạn văn! ❤️');
-        }
+    function cover(book) {
+        return `<div class="cover" style="--cover-bg:${book.bg};--cover-ink:${book.ink}" aria-hidden="true">
+        <span class="cover-kicker">Tiệm Chanh · ${book.genre}</span>
+        <span class="cover-title">${book.title}</span>
+        <span class="cover-author">${book.author}</span>
+      </div>`;
+    }
 
-        function insertEmoji(emoji) {
-            const input = document.getElementById('paraCommentInput');
-            input.value += emoji;
-            input.focus();
-        }
+    function bookCard(book) {
+        return `<article class="book-card">
+        <button class="book-open" data-action="preview" data-id="${book.id}"
+          aria-label="Xem giới thiệu ${book.title}">
+          ${cover(book)}
+          <h3 class="book-title">${book.title}</h3>
+          <div class="book-author">${book.author}</div>
+        </button>
+        <div class="book-meta"><span>${book.genre}</span>
+          <span class="rating">★ ${book.rating}</span></div>
+        <div class="book-meta"><span>${book.status}</span><span>${book.chapters} chương</span></div>
+      </article>`;
+    }
 
-        function submitParaComment() {
-            const cmt = document.getElementById('paraCommentInput').value;
-            if(!cmt) { alert('Vui lòng viết nội dung bình luận!'); return; }
-            alert('Đã gửi bình luận thành công! 💬');
-            closeModal('paraCommentModal');
-        }
+    function miniBook(book) {
+        return `<button class="mini-book" data-action="preview" data-id="${book.id}">
+        ${cover(book)}<span><strong>${book.title}</strong>
+        <small>${book.author} · ${book.chapters} chương</small></span>
+      </button>`;
+    }
 
-        function adminAddStory() {
-            const title = document.getElementById('adminStoryTitle').value;
-            const desc = document.getElementById('adminStoryDesc').value;
-            if(!title) { alert('Vui lòng nhập tên truyện!'); return; }
-            
-            const list = document.getElementById('homeStoryList');
-            list.innerHTML += `
-                <div class="story-card" onclick="selectStory('${title}', '${desc}')">
-                    <div class="story-thumb">🍋</div>
-                    <b>${title}</b>
-                </div>
-            `;
-            alert(`Đã đăng truyện "${title}" thành công! 🎉`);
-            document.getElementById('adminStoryTitle').value = '';
-            document.getElementById('adminStoryDesc').value = '';
-            switchTab('home');
-        }
+    function renderHome() {
+        const normalized = searchQuery.toLocaleLowerCase("vi");
+        const filtered = BOOKS.filter(book =>
+            (genre === "Tất cả" || book.genre === genre) &&
+            (statusFilter === "all" || book.status === statusFilter) &&
+            `${book.title} ${book.author} ${book.genre}`.toLocaleLowerCase("vi").includes(normalized));
+        const favorites = BOOKS.filter(book => state.favorites.includes(book.id));
 
-        function adminAddGear() {
-            const type = document.getElementById('adminGearType').value;
-            const name = document.getElementById('adminGearName').value;
-            const filename = document.getElementById('adminGearFile').value;
-            if(!name || !filename) { alert('Vui lòng điền đủ thông tin vật phẩm!'); return; }
+        return `
+        ${heading("Chào mừng đến Tiệm Chanh", `Chào ${escapeHTML(state.name)},`,
+            "Gác lại một chút bộn bề. Câu chuyện của hôm nay đang chờ bạn.")}
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero-copy">
+            <span class="pill gold">MỘT TRANG SÁCH, MỘT MẦM XANH</span>
+            <h2 id="hero-title">Đọc một chút.<br>Bình yên một chút.</h2>
+            <p>Cất những câu chuyện yêu thích, chăm khu vườn nhỏ và tìm một góc dành riêng cho mình.</p>
+            <button class="primary" data-action="browse">Tìm truyện để đọc →</button>
+          </div>
+          <div class="hero-art" aria-hidden="true">
+            <div class="hero-sun"></div>
+            <div class="art-book one">Những ngày<br>bình yên</div>
+            <div class="art-book two">Một khu<br>vườn nhỏ</div>
+          </div>
+        </section>
 
-            if(type === 'avatar') {
-                document.getElementById('avatarVault').innerHTML += `
-                    <div class="story-card" onclick="setGear('avatar', '${filename}')">
-                        <div class="story-thumb"><img src="assets/${filename}" style="width:50px;height:50px;border-radius:50%;object-fit:cover;" onerror="this.src='https://via.placeholder.com/50'"></div>
-                        <b>${name}</b>
-                        <div style="font-size: 0.75rem; color: var(--accent-yellow); margin-top: 4px;">Đặt làm Avatar</div>
-                    </div>
-                `;
-            } else {
-                document.getElementById('frameVault').innerHTML += `
-                    <div class="story-card" onclick="setGear('frame', '${filename}')">
-                        <div class="story-thumb"><img src="assets/${filename}" style="width:50px;height:50px;object-fit:contain;" onerror="this.src='https://via.placeholder.com/50'"></div>
-                        <b>${name}</b>
-                        <div style="font-size: 0.75rem; color: var(--accent-yellow); margin-top: 4px;">Đặt làm Khung</div>
-                    </div>
-                `;
+        <section class="content-section">
+          <div class="section-head">
+            <div><div class="row"><img class="title-icon" data-asset="hot" alt="">
+              <h2 style="margin:0">Đang được yêu thích</h2></div>
+              <p>Những câu chuyện khiến độc giả ở lại thêm một chương.</p></div>
+            <span class="pill gold">Nổi bật</span>
+          </div>
+          <div class="book-grid">${BOOKS.slice(0,4).map(bookCard).join("")}</div>
+        </section>
+
+        <section class="content-section">
+          <div class="section-head">
+            <div><div class="row"><img class="title-icon" data-asset="favorite" alt="">
+              <h2 style="margin:0">Góc truyện yêu thích</h2></div>
+              <p>Những câu chuyện bạn muốn giữ lại.</p></div>
+            <button class="text-button" data-action="favorites-library">Xem tất cả →</button>
+          </div>
+          ${favorites.length
+            ? `<div class="favorite-grid">${favorites.slice(0,2).map(miniBook).join("")}</div>`
+            : `<div class="empty"><p>Chưa có truyện yêu thích. Mở một truyện và chọn “Yêu thích” nhé.</p></div>`}
+        </section>
+
+        <section class="content-section" id="all-books">
+          <div class="section-head">
+            <div><h2>Khám phá kệ sách</h2><p id="result-summary">
+              ${filtered.length} câu chuyện${searchQuery ? ` cho “${escapeHTML(searchQuery)}”` : " dành cho bạn"}</p></div>
+          </div>
+          <div class="filter-bar" aria-label="Lọc thể loại">
+            ${["Tất cả","Kỳ ảo","Lãng mạn","Thanh xuân","Chữa lành"].map(item => `
+              <button class="chip" data-action="genre" data-value="${item}"
+                aria-pressed="${genre === item}">${item}</button>`).join("")}
+            <label class="sr-only" for="status-filter">Trạng thái truyện</label>
+            <select id="status-filter">
+              <option value="all" ${statusFilter === "all" ? "selected" : ""}>Mọi trạng thái</option>
+              <option ${statusFilter === "Hoàn thành" ? "selected" : ""}>Hoàn thành</option>
+              <option ${statusFilter === "Đang cập nhật" ? "selected" : ""}>Đang cập nhật</option>
+            </select>
+          </div>
+          ${filtered.length ? `<div class="book-grid">
+            ${filtered.slice(0,visibleCount).map(bookCard).join("")}</div>`
+            : `<div class="empty"><h3>Chưa tìm thấy câu chuyện phù hợp</h3>
+                <p>Thử tên tác giả khác hoặc bỏ bớt bộ lọc nhé.</p>
+                <button data-action="reset-filters" style="margin-top:16px">Xóa bộ lọc</button></div>`}
+          ${filtered.length > visibleCount ? `<div style="text-align:center;margin-top:24px">
+            <button data-action="load-more">Xem thêm câu chuyện ↓</button></div>` : ""}
+        </section>
+
+        <section class="content-section">
+          <div class="section-head"><div><h2>Vừa có chương mới</h2>
+            <p>Một cuộc hẹn mới trên trang sách.</p></div></div>
+          <div class="favorite-grid">
+            ${BOOKS.filter(book => book.status === "Đang cập nhật").slice(0,2).map(miniBook).join("")}
+          </div>
+        </section>`;
+    }
+
+    function renderRight() {
+        if (page === "reader") return;
+        document.getElementById("right-column").innerHTML = `
+        <section class="panel leaderboard">
+          <div class="eyebrow" style="margin-bottom:9px">Cùng nhau lớn lên</div>
+          <h2>Bảng xếp hạng độc giả</h2>
+          <small>Dữ liệu cộng đồng minh họa</small>
+          <div class="rank-tabs" aria-label="Tiêu chí bảng xếp hạng">
+            ${[["plants","Trồng cây"],["coins","Xu chanh"],["hours","Online"]].map(([id,label]) =>
+            `<button data-action="rank" data-value="${id}"
+                aria-pressed="${rankTab === id}">${label}</button>`).join("")}
+          </div>
+          ${rankRows()}
+          <div class="your-rank row between">
+            <span>Bạn · Chưa có hạng thật</span><strong id="your-rank-stat">${ownRankStat()}</strong>
+          </div>
+        </section>
+
+        <section class="panel coin-summary">
+          <div class="row between"><strong style="font-size:13px">Ví chanh của bạn</strong>
+            <img data-asset="coin" alt="" width="30" height="30"></div>
+          <div class="coin-number"><span data-balance>${number(state.coins)}</span> <small>xu</small></div>
+          <div class="progress" role="progressbar" aria-label="Tiến độ nhận xu tiếp theo"
+            aria-valuemin="0" aria-valuemax="600" aria-valuenow="${state.coinSeconds}" data-coin-progress>
+            <span style="width:${state.coinSeconds / 6}%"></span></div>
+          <small>Xu tiếp theo sau <strong data-countdown>${countdown()}</strong> hoạt động</small>
+          <p class="demo-note" style="margin-top:12px">Bản demo: dừng khi tab ẩn, mất focus hoặc không tương tác quá 60 giây.</p>
+        </section>
+
+        <section class="panel garden-teaser">
+          <div class="row between"><h2 style="margin:0">Khu vườn nhỏ</h2>
+            <span class="pill green">${state.garden.filter(Boolean).length}/6 ô</span></div>
+          <div class="plant mature" style="margin-top:18px" aria-hidden="true"><span class="leaves"></span></div>
+          <p>Mỗi mầm xanh là một chút kiên nhẫn. Ghé xem khu vườn hôm nay nhé.</p>
+          <button class="text-button" data-action="navigate" data-page="house">Về Nhà chăm cây →</button>
+        </section>
+        <p class="demo-note">Giao diện thử nghiệm · Bìa, tài sản và dữ liệu truyện là minh họa.</p>`;
+        hydrateAssets(document.getElementById("right-column"));
+    }
+
+    function ownRankStat() {
+        return rankTab === "plants" ? `${state.plantsGrown} cây` :
+            rankTab === "coins" ? `${number(state.coins)} xu` : `${Math.floor(state.onlineSeconds / 60)} phút`;
+    }
+
+    function rankRows() {
+        const people = rankTab === "plants"
+            ? [["Mây tháng Tư","128 cây","#d7e3d0"],["Chanh Chanh","96 cây","#efe0ba"],["Lannyy","82 cây","#ded5e7"],["Mộc nhỏ","71 cây","#d5e3ea"]]
+            : rankTab === "coins"
+                ? [["Chanh Chanh","3.280 xu","#efe0ba"],["Lannyy","2.740 xu","#ded5e7"],["Mây tháng Tư","2.180 xu","#d7e3d0"],["Mộc nhỏ","1.950 xu","#d5e3ea"]]
+                : [["Lannyy","240 giờ","#ded5e7"],["Mây tháng Tư","216 giờ","#d7e3d0"],["Mộc nhỏ","189 giờ","#d5e3ea"],["Chanh Chanh","170 giờ","#efe0ba"]];
+        return people.map(([name, stat, color], index) => `
+        <button class="rank-row" data-action="public-profile" data-name="${name}" data-stat="${stat}">
+          <span class="rank-number ${index < 3 ? "top" : ""}">${index + 1}</span>
+          ${avatar(name,color,index === 0 ? "gold" : "none")}
+          <span><strong class="rank-name">${name}</strong><span class="rank-stat">${stat}</span></span>
+        </button>`).join("");
+    }
+
+    function renderHouse() {
+        return `${heading("Một nơi để trở về","Nhà của bạn",
+            "Cất những món đồ nhỏ, chăm những mầm xanh và nhìn mình lớn lên mỗi ngày.")}
+        <div class="stack">
+          <section class="panel">
+            <div class="profile-summary">
+              ${avatar(state.name,currentColor(),state.frame,true)}
+              <div><span class="eyebrow">Độc giả của Tiệm Chanh</span>
+                <h2>${escapeHTML(state.name)}</h2>
+                <button class="text-button" data-action="edit-name">Đổi tên độc giả →</button></div>
+            </div>
+            <div class="stat-grid">
+              <div class="stat"><small>Số dư hiện tại</small><strong><span data-balance>${number(state.coins)}</span> xu</strong></div>
+              <div class="stat"><small>Tổng xu đã kiếm</small><strong data-lifetime>${number(state.lifetimeCoins)} xu</strong></div>
+              <div class="stat"><small>Thời gian hoạt động</small><strong data-online>${Math.floor(state.onlineSeconds/60)} phút</strong></div>
+            </div>
+            <div class="progress" role="progressbar" aria-label="Tiến độ nhận xu tiếp theo"
+              aria-valuemin="0" aria-valuemax="600" aria-valuenow="${state.coinSeconds}" data-coin-progress>
+              <span style="width:${state.coinSeconds/6}%"></span></div>
+            <small>1 xu / 10 phút hoạt động · Còn <span data-countdown>${countdown()}</span> đến xu tiếp theo.</small>
+          </section>
+
+          <section class="panel">
+            <div class="section-head"><div><h2>Khu vườn của ${escapeHTML(state.name)}</h2>
+              <p>Đã thu hoạch ${state.plantsGrown} cây · Chọn một ô đất để bắt đầu.</p></div>
+              <button class="text-button" data-action="seed-shop">Mua hạt giống →</button></div>
+            <div class="notice">Cơ chế minh họa: Chanh vàng lớn trong 30 phút, Mầm bình yên trong 20 phút.
+              Thời gian cây lớn và thưởng thu hoạch cần cấu hình lại theo luật game thực tế.</div>
+            <div class="garden-grid">${state.garden.map(gardenSlot).join("")}</div>
+          </section>
+
+          <section class="panel">
+            <div class="section-head"><div><h2>Bộ sưu tập avatar</h2><p>Avatar chữ minh họa · Có thể thay bằng ảnh thật khi bổ sung tài nguyên.</p></div></div>
+            <div class="item-grid">${AVATARS.filter(item => state.ownedAvatars.includes(item.id)).map(itemCardAvatar).join("")}</div>
+          </section>
+          <section class="panel">
+            <h2>Những chiếc khung đã sở hữu</h2><p class="muted" style="font-size:12px">Khung CSS minh họa, chưa phải tài nguyên PNG chính thức.</p>
+            <div class="item-grid">${FRAMES.filter(item => state.ownedFrames.includes(item.id)).map(itemCardFrame).join("")}</div>
+          </section>
+          <section class="panel">
+            <h2>Lịch sử xu chanh</h2>
+            ${state.transactions.length ? state.transactions.slice().reverse().slice(0,10).map(transaction =>
+                `<div class="row between" style="padding:12px 0;border-bottom:1px solid var(--border)">
+                <span style="font-size:12px">${escapeHTML(transaction.label)}<br>
+                  <small>${new Date(transaction.at).toLocaleString("vi-VN")}</small></span>
+                <strong>${transaction.amount > 0 ? "+" : ""}${transaction.amount} xu</strong></div>`).join("")
+            : `<p class="muted" style="font-size:13px">Chưa có giao dịch trong bản demo này.</p>`}
+          </section>
+        </div>`;
+    }
+
+    function gardenSlot(plant, index) {
+        const seed = plant && SEEDS[plant.type];
+        const mature = plant && Date.now() >= plant.readyAt;
+        return `<article class="garden-slot">
+        <div class="plant ${!plant ? "empty" : mature ? "mature" : "seedling"}" aria-hidden="true">
+          <span class="leaves"></span></div>
+        <h3>${plant ? seed.name : `Ô đất ${index + 1}`}</h3>
+        <small>${!plant ? "Đang chờ một mầm xanh" : mature ? "Đã sẵn sàng thu hoạch" : `Còn ${Math.ceil((plant.readyAt-Date.now())/60000)} phút`}</small><br>
+        <button class="${mature ? "primary" : ""}" data-action="${!plant ? "plant-dialog" : mature ? "harvest" : "plant-info"}"
+          data-index="${index}">${!plant ? "Trồng cây" : mature ? `Thu hoạch +${seed.reward} xu` : "Xem tiến trình"}</button>
+      </article>`;
+    }
+
+    function itemCardAvatar(item) {
+        const owned = state.ownedAvatars.includes(item.id), equipped = state.avatar === item.id;
+        return `<article class="item-card">
+        <div class="item-art">${avatar(state.name,item.color,"none",true)}</div>
+        <h3>${item.name}</h3><p>${owned ? "Đã sở hữu" : `${item.price} xu chanh`}</p>
+        <button ${equipped ? "disabled" : ""} data-action="${owned ? "equip" : "purchase"}"
+          data-kind="avatar" data-id="${item.id}">${equipped ? "Đang trang bị" : owned ? "Trang bị" : "Mua avatar"}</button>
+      </article>`;
+    }
+
+    function itemCardFrame(item) {
+        const owned = state.ownedFrames.includes(item.id), equipped = state.frame === item.id;
+        return `<article class="item-card">
+        <div class="item-art">${avatar(state.name,currentColor(),item.id,true)}</div>
+        <h3>${item.name}</h3><p>${owned ? "Đã sở hữu" : `${item.price} xu chanh`}</p>
+        <button ${equipped ? "disabled" : ""} data-action="${owned ? "equip" : "purchase"}"
+          data-kind="frame" data-id="${item.id}">${equipped ? "Đang trang bị" : owned ? "Trang bị" : "Mua khung"}</button>
+      </article>`;
+    }
+
+    function renderShop() {
+        return `${heading("Một chút xinh cho thế giới riêng","Cửa hàng Tiệm Chanh",
+            "Đổi xu chanh lấy những món đồ bạn thích. Không vội, cứ chọn thật chậm.")}
+        <div class="notice">Số dư: <strong data-balance>${number(state.coins)}</strong> xu.
+          Avatar và khung hiện là mẫu CSS; cây là hình minh họa.</div>
+        <div class="tab-bar" aria-label="Danh mục cửa hàng">
+          ${[["avatars","Avatar"],["frames","Khung avatar"],["seeds","Giống cây"]].map(([id,label]) =>
+            `<button data-action="shop-tab" data-value="${id}" aria-pressed="${shopTab === id}">${label}</button>`).join("")}
+        </div>
+        <div class="item-grid">
+          ${shopTab === "avatars" ? AVATARS.map(itemCardAvatar).join("") :
+            shopTab === "frames" ? FRAMES.map(itemCardFrame).join("") :
+                Object.entries(SEEDS).map(([id,item]) => `<article class="item-card">
+              <div class="item-art"><div class="plant seedling" aria-hidden="true"><span class="leaves"></span></div></div>
+              <h3>${item.name}</h3><p>${item.price} xu · Đang có ${state.seeds[id] || 0} hạt</p>
+              <small>Lớn sau ${item.duration / 60000} phút · Thu ${item.reward} xu</small>
+              <button data-action="purchase" data-kind="seed" data-id="${id}">Mua hạt giống</button>
+            </article>`).join("")}
+        </div>`;
+    }
+
+    function renderLibrary() {
+        const books = BOOKS.filter(book => {
+            const entry = state.library[book.id];
+            return libraryTab === "favorites" ? state.favorites.includes(book.id) :
+                libraryTab === "completed" ? entry?.completed : entry && !entry.completed;
+        });
+        return `${heading("Những trang sách đã đi cùng bạn","Túi mua hàng",
+            "Thư viện cá nhân: đang đọc, đã hoàn thành và những câu chuyện yêu thích.")}
+        <div class="tab-bar" aria-label="Danh sách đọc">
+          ${[["reading","Đang đọc"],["completed","Đã đọc"],["favorites","Yêu thích"]].map(([id,label]) =>
+            `<button data-action="library-tab" data-value="${id}" aria-pressed="${libraryTab === id}">${label}</button>`).join("")}
+        </div>
+        ${books.length ? books.map(book => {
+            const entry = state.library[book.id];
+            const percent = entry ? entry.completed ? 100 : Math.round(entry.chapter/book.chapters*100) : 0;
+            return `<article class="library-item">${cover(book)}
+            <div class="library-info"><h3>${book.title}</h3><small>${book.author} · ${book.status}</small>
+              <div class="progress"><span style="width:${percent}%"></span></div>
+              <small>${entry ? `${percent}% · Chương ${entry.chapter}/${book.chapters}` : "Chưa bắt đầu đọc"}</small>
+              <div class="row" style="margin-top:12px">
+                <button class="primary" data-action="read" data-id="${book.id}">${entry ? "Tiếp tục đọc" : "Bắt đầu đọc"}</button>
+                <button data-action="preview" data-id="${book.id}">Giới thiệu</button>
+                ${entry ? `<button class="text-button" data-action="toggle-completed" data-id="${book.id}">
+                  ${entry.completed ? "Đánh dấu đang đọc" : "Đánh dấu đã đọc"}</button>` : ""}
+              </div>
+            </div></article>`;
+        }).join("") : `<div class="empty"><h3>Kệ sách đang chờ bạn</h3>
+          <p>Hãy mở một câu chuyện hoặc thêm truyện vào mục yêu thích.</p>
+          <button class="primary" style="margin-top:18px" data-action="navigate" data-page="home">Khám phá truyện</button></div>`}`;
+    }
+
+    function renderExplore() {
+        const reviews = state.reviews.filter(review => journalFilter === "all" || review.status === journalFilter);
+        return `${heading("Chỉ dành cho những cảm nhận của bạn","Khám phá",
+            "Một cuốn nhật ký đọc nhỏ. Ghi lại điều khiến bạn mỉm cười, suy nghĩ hoặc muốn đọc lại.")}
+        <div class="notice"><strong>Lưu trên thiết bị · Bản demo chưa có đăng nhập.</strong><br>
+          Không sử dụng trên thiết bị dùng chung cho nội dung nhạy cảm.
+          Quyền chủ sở hữu phải được bảo vệ bằng backend khi đưa lên sử dụng thật.</div>
+        <div class="section-head">
+          <div class="tab-bar" style="margin:0">
+            ${[["all","Tất cả"],["planned","Muốn review"],["written","Đã viết"]].map(([id,label]) =>
+            `<button data-action="journal-filter" data-value="${id}" aria-pressed="${journalFilter === id}">${label}</button>`).join("")}
+          </div>
+          <button class="primary" data-action="review-editor">Viết ghi chú</button>
+        </div>
+        ${reviews.length ? reviews.map(review => `<article class="journal-card">
+          <div class="row between"><span class="pill ${review.status === "written" ? "green" : "gold"}">
+            ${review.status === "written" ? "Đã viết" : "Muốn review"}</span>
+            <small>${new Date(review.updatedAt).toLocaleDateString("vi-VN")}</small></div>
+          <h3><button class="text-button" style="text-align:left" data-action="preview" data-id="${review.bookId}">
+            ${bookById(review.bookId)?.title || "Truyện"}</button></h3>
+          <div class="rating" aria-label="${review.rating} trên 5 sao">${"★".repeat(review.rating)}${"☆".repeat(5-review.rating)}</div>
+          <p>${escapeHTML(review.text || "Chưa viết cảm nhận. Hãy để dành một chút thời gian cho câu chuyện này.")}</p>
+          <div class="row"><button data-action="review-editor" data-id="${review.id}">Chỉnh sửa</button>
+            <button class="quiet danger" data-action="delete-review" data-id="${review.id}">Xóa ghi chú</button></div>
+        </article>`).join("") : `<div class="empty"><h3>Cảm nhận đầu tiên đang đợi được viết</h3>
+          <p>Thêm một truyện vào danh sách muốn review hoặc lưu đôi dòng sau khi đọc.</p></div>`}`;
+    }
+
+    function renderDetail() {
+        const book = bookById(selectedBook), favorite = state.favorites.includes(book.id);
+        return `<button class="text-button" data-action="navigate" data-page="home" style="margin-bottom:20px">← Trở về kệ sách</button>
+        <section class="panel">
+          <div class="detail-hero">
+            ${cover(book)}
+            <div>
+              <span class="pill green">${book.status}</span>
+              <h1>${book.title}</h1><p class="muted">Tác giả: ${book.author}</p>
+              <div class="row wrap"><span class="pill">${book.genre}</span>
+                <span class="pill gold">★ ${book.rating}</span></div>
+              <p class="muted" style="font-size:12px;margin-top:14px">${book.chapters} chương · ${book.reads} lượt đọc</p>
+            </div>
+          </div>
+          <div class="detail-synopsis"><h2>Một chút về câu chuyện</h2><p>${book.description}</p></div>
+          <div class="row wrap detail-actions">
+            <button class="primary" data-action="read" data-id="${book.id}">
+              ${state.library[book.id] ? "Tiếp tục đọc" : "Bắt đầu đọc"} →</button>
+            <button data-action="favorite" data-id="${book.id}" aria-pressed="${favorite}">
+              ${favorite ? "Đã yêu thích" : "Yêu thích"}</button>
+            <button class="quiet" data-action="review-editor" data-book="${book.id}">Ghi chú riêng</button>
+          </div>
+          <p class="demo-note" style="margin:20px 0 0">Bìa, thông tin và nội dung chương trong bản này là dữ liệu minh họa.</p>
+        </section>`;
+    }
+
+    function paragraphsFor(book, currentChapter) {
+        return [
+            `Buổi sáng của ngày thứ ${currentChapter} bắt đầu thật chậm. Ánh nắng nghiêng qua khung cửa, chạm lên gáy những cuốn sách đã nằm ở đó từ rất lâu. Ngoài hiên, một chiếc lá nhỏ vừa rơi xuống bên chậu chanh.`,
+            "Cô đứng dưới mái hiên, lặng lẽ nhìn khoảng sân còn ướt sau cơn mưa. Có những điều dù muốn nói đến đâu, cuối cùng vẫn chỉ có thể giữ lại trong lòng. Nhưng hôm nay, cô muốn thử bắt đầu bằng một lời chào.",
+            `Trên bàn là cuốn “${book.title}” vẫn còn mở ở trang hôm qua. Giữa hai trang giấy, ai đó đã đặt một chiếc lá khô cùng dòng chữ rất nhỏ: Đừng vội, những điều tốt đẹp cũng cần thời gian để lớn lên.`,
+            "“Cậu lại đến sớm hơn tôi rồi.” Giọng nói vang lên từ phía cửa. Cô quay lại, bắt gặp một nụ cười quen thuộc và bỗng thấy buổi sáng này khác hẳn những buổi sáng trước.",
+            "Hai người ngồi xuống bên chiếc bàn gỗ cạnh cửa sổ. Không ai cần nói điều gì quá lớn lao. Tiếng lật sách, tiếng nước được rót vào tách và mùi đất ẩm từ khu vườn đã đủ lấp đầy sự im lặng.",
+            "Ở một góc rất nhỏ của thế giới, có những câu chuyện không bắt đầu bằng phép màu. Chúng bắt đầu khi một người quyết định ở lại thêm một chút, lắng nghe thêm một chút và trao cho người khác một chút dịu dàng.",
+            "Khi nắng lên cao hơn, cô khép cuốn sách lại, đánh dấu trang vừa đọc. Ngoài kia vẫn còn rất nhiều điều chưa biết. Nhưng lần đầu tiên sau nhiều ngày, cô không thấy cần phải tìm ra tất cả câu trả lời ngay lập tức.",
+            "Cây chanh nhỏ trên hiên đang ra một chiếc lá mới."
+        ];
+    }
+
+    function threadKey(index) { return `${selectedBook}:${chapter}:${index}`; }
+
+    function renderReader() {
+        const book = bookById(selectedBook), key = `${book.id}:${chapter}`;
+        return `<div class="reader-toolbar">
+          <button class="quiet" data-action="preview" data-id="${book.id}">← Giới thiệu truyện</button>
+          <div class="row wrap">
+            <button data-action="toc">Mục lục</button>
+            <button data-action="bookmark" aria-pressed="${Boolean(state.bookmarks[key])}">
+              ${state.bookmarks[key] ? "Đã đánh dấu" : "Đánh dấu chương"}</button>
+            <button data-action="settings">Aa · Giao diện</button>
+          </div>
+        </div>
+        <div class="reader-heading"><span class="eyebrow">${book.title}</span>
+          <h1>Chương ${chapter} — ${chapter === 1 ? "Một ngày thật chậm" : "Những điều đang lớn lên"}</h1>
+          <p class="muted" style="font-size:12px">Nội dung minh họa · Tiến độ được lưu trên thiết bị</p></div>
+        <article class="reading-content" aria-label="Nội dung chương">
+          ${paragraphsFor(book,chapter).map((text,index) => {
+            const count = (state.comments[threadKey(index)] || []).length;
+            return `<div class="paragraph" data-paragraph="${index}">
+              <p>${escapeHTML(text)}</p>
+              <button class="comment-action ${count ? "has-comments" : ""}"
+                data-action="comments" data-index="${index}"
+                aria-label="Bình luận đoạn ${index+1}, ${count} bình luận">
+                ${icon("comment")}<span>${count || "+"}</span></button></div>`;
+        }).join("")}
+        </article>
+        <div class="reader-footer">
+          <button data-action="chapter" data-direction="-1" ${chapter === 1 ? "disabled" : ""}>← Chương trước</button>
+          <button class="primary" data-action="chapter" data-direction="1" ${chapter >= book.chapters ? "disabled" : ""}>Chương tiếp →</button>
+        </div>
+        <p class="reader-note">Bạn đang ở chương ${chapter}/${book.chapters}. Không cung cấp tải EPUB/PDF/TXT.</p>`;
+    }
+
+    function startReading(id) {
+        const book = bookById(id);
+        if (!book) return;
+        selectedBook = id;
+        chapter = Math.min(book.chapters, Math.max(1,state.library[id]?.chapter || 1));
+        state.library[id] = { ...(state.library[id] || {}), chapter, updatedAt: Date.now() };
+        save();
+        go("reader");
+    }
+
+    function settingsDialog() {
+        openDialog("Một giao diện vừa ý bạn", `
+        <p class="muted" style="font-size:13px">Chọn ánh sáng dễ chịu và cỡ chữ thoải mái cho những chương dài.</p>
+        <h3>Chế độ hiển thị</h3>
+        <div class="theme-options">
+          ${[["light","Ban ngày","day"],["dark","Ban đêm","night"],["system","Hệ thống","system"]].map(([id,label,swatch]) => `
+            <button class="theme-option" data-action="theme" data-value="${id}"
+              aria-pressed="${state.theme === id}">
+              <div class="theme-swatch ${swatch}" aria-hidden="true">${id === "system" ? "" : "Aa"}</div>
+              ${label}</button>`).join("")}
+        </div>
+        <div class="form-field"><label for="font-size">Cỡ chữ khi đọc truyện</label>
+          <select id="font-size">
+            ${[[18,"Nhỏ"],[20,"Vừa"],[24,"Lớn"],[28,"Rất lớn"]].map(([size,label]) =>
+            `<option value="${size}" ${state.fontSize === size ? "selected" : ""}>${label} · ${size}px</option>`).join("")}
+          </select></div>
+        <div class="font-sample">Một trang sách, một khoảng bình yên.</div>
+        <p class="demo-note" style="margin:18px 0 0">Theme áp dụng toàn website. Cỡ chữ chỉ thay đổi nội dung truyện.
+          Lựa chọn được ghi nhớ trên thiết bị này.</p>`);
+    }
+
+    function reviewEditor(id, preferredBook) {
+        const existing = state.reviews.find(review => review.id === id);
+        openDialog(existing ? "Chỉnh sửa cảm nhận" : "Một ghi chú cho riêng bạn", `
+        <form id="review-form" data-id="${existing?.id || ""}">
+          <div class="form-field"><label for="review-book">Câu chuyện</label>
+            <select id="review-book" name="bookId">
+              ${BOOKS.map(book => `<option value="${book.id}" ${book.id === (existing?.bookId || preferredBook) ? "selected" : ""}>${book.title}</option>`).join("")}
+            </select></div>
+          <div class="form-field"><label for="review-status">Trạng thái</label>
+            <select id="review-status" name="status">
+              <option value="planned" ${existing?.status === "planned" ? "selected" : ""}>Muốn review</option>
+              <option value="written" ${existing?.status === "written" ? "selected" : ""}>Đã viết cảm nhận</option>
+            </select></div>
+          <div class="form-field"><label for="review-rating">Đánh giá cá nhân</label>
+            <select id="review-rating" name="rating">
+              ${[5,4,3,2,1].map(value => `<option value="${value}" ${existing?.rating === value ? "selected" : ""}>${value} / 5 sao</option>`).join("")}
+            </select></div>
+          <div class="form-field"><label for="review-text">Cảm nhận / ghi chú</label>
+            <textarea id="review-text" name="text" maxlength="5000"
+              placeholder="Có điều gì ở câu chuyện này khiến bạn muốn nhớ?">${escapeHTML(existing?.text || "")}</textarea></div>
+          <button class="primary" type="submit">Lưu trên thiết bị</button>
+        </form>`);
+    }
+
+    function commentsDialog(index) {
+        activeThread = threadKey(index);
+        replyTo = null;
+        paintComments(index);
+    }
+
+    function paintComments(index) {
+        const comments = state.comments[activeThread] || [];
+        openDialog(`Bình luận đoạn ${index+1}`, `
+        <div class="quote">${escapeHTML(paragraphsFor(bookById(selectedBook),chapter)[index])}</div>
+        <div class="comment-list">
+          ${comments.length ? comments.map(comment => `<article class="comment ${comment.parentId ? "reply" : ""}">
+            <div class="row between"><strong style="font-size:12px">${escapeHTML(comment.name)}</strong>
+              <small>${new Date(comment.at).toLocaleDateString("vi-VN")}</small></div>
+            ${comment.parentId ? `<small>Trả lời ${escapeHTML(comments.find(item => item.id === comment.parentId)?.name || "bình luận")}</small>` : ""}
+            <p>${escapeHTML(comment.text)}</p>
+            <div class="row">
+              <button data-action="react-comment" data-id="${comment.id}" data-index="${index}"
+                aria-pressed="${Boolean(comment.liked)}">${comment.liked ? "Đã thích" : "Thích"} · ${comment.liked ? 1 : 0}</button>
+              <button data-action="reply-comment" data-id="${comment.id}">Trả lời</button>
+            </div></article>`).join("")
+            : `<p class="muted" style="font-size:13px">Chưa có bình luận. Bạn có muốn mở đầu câu chuyện?</p>`}
+        </div>
+        <form id="comment-form" data-index="${index}">
+          <div id="reply-label" class="muted" style="font-size:12px;margin-bottom:8px"></div>
+          <div class="form-field"><label for="comment-text">Cảm nghĩ về đoạn này</label>
+            <textarea id="comment-text" name="text" required maxlength="1200"
+              placeholder="Viết một lời thật dễ thương…"></textarea></div>
+          <button type="submit" class="primary">Gửi bình luận</button>
+        </form>
+        <p class="demo-note" style="margin-top:15px">Bình luận demo chỉ lưu trên thiết bị.
+          Mỗi luồng được gắn riêng với truyện, chương và đoạn.</p>`);
+    }
+
+    function logTransaction(amount, label, earned = false) {
+        state.coins += amount;
+        if (earned && amount > 0) state.lifetimeCoins += amount;
+        state.transactions.push({ amount, label, at: Date.now() });
+        state.transactions = state.transactions.slice(-200);
+        save();
+    }
+
+    function purchaseDialog(kind, id) {
+        const item = kind === "avatar" ? AVATARS.find(item => item.id === id) :
+            kind === "frame" ? FRAMES.find(item => item.id === id) : SEEDS[id];
+        if (!item) return;
+        openDialog("Mang một chút xinh về Nhà", `
+        <p>Bạn muốn mua <strong>${item.name}</strong> với <strong>${item.price} xu chanh</strong>?</p>
+        <p class="muted" style="font-size:13px">Số dư hiện tại: ${number(state.coins)} xu.</p>
+        ${state.coins < item.price
+            ? `<div class="notice">Bạn còn thiếu ${item.price-state.coins} xu. Hãy đọc truyện và tích lũy thêm nhé.</div>`
+            : `<button class="primary" data-action="confirm-purchase" data-kind="${kind}" data-id="${id}">Xác nhận mua</button>`}
+        <button class="quiet" data-action="close-dialog">Để mình nghĩ thêm</button>`);
+    }
+
+    function confirmPurchase(kind, id) {
+        const item = kind === "avatar" ? AVATARS.find(item => item.id === id) :
+            kind === "frame" ? FRAMES.find(item => item.id === id) : SEEDS[id];
+        if (!item || state.coins < item.price) return;
+        if (kind === "avatar" && state.ownedAvatars.includes(id)) return;
+        if (kind === "frame" && state.ownedFrames.includes(id)) return;
+        if (kind === "avatar") state.ownedAvatars.push(id);
+        else if (kind === "frame") state.ownedFrames.push(id);
+        else state.seeds[id] = (state.seeds[id] || 0) + 1;
+        logTransaction(-item.price, `Mua ${item.name}`);
+        dialog.close();
+        render();
+        toast(`Đã mang ${item.name} về Nhà.`);
+    }
+
+    function plantDialog(index) {
+        if (state.garden[index]) return;
+        openDialog(`Trồng cây ở ô ${index+1}`, `
+        <p class="muted" style="font-size:13px">Chọn hạt giống trong túi của bạn.</p>
+        ${Object.entries(SEEDS).map(([id,seed]) => `
+          <div class="row between" style="padding:15px 0;border-bottom:1px solid var(--border)">
+            <span><strong>${seed.name}</strong><br><small>Có ${state.seeds[id] || 0} hạt · ${seed.duration/60000} phút</small></span>
+            <button data-action="plant" data-id="${id}" data-index="${index}"
+              ${!state.seeds[id] ? "disabled" : ""}>Trồng</button>
+          </div>`).join("")}
+        <button class="text-button" data-action="seed-shop" style="margin-top:15px">Ghé cửa hàng mua thêm →</button>`);
+    }
+
+    function tocDialog() {
+        const book = bookById(selectedBook);
+        openDialog("Mục lục chương", `
+        <p class="muted" style="font-size:12px">${book.title} · Nội dung chương là minh họa.</p>
+        <div class="stack" style="gap:8px">
+          ${Array.from({length:book.chapters},(_,index) => `<button data-action="jump-chapter" data-number="${index+1}"
+            ${chapter === index+1 ? 'class="primary" aria-current="page"' : ""}>
+            Chương ${index+1} ${state.bookmarks[`${selectedBook}:${index+1}`] ? "· Đã đánh dấu" : ""}</button>`).join("")}
+        </div>`);
+    }
+
+    function jumpChapter(next) {
+        chapter = Math.max(1,Math.min(bookById(selectedBook).chapters,next));
+        state.library[selectedBook] = {
+            ...(state.library[selectedBook] || {}), chapter, updatedAt: Date.now()
+        };
+        save();
+        if (dialog.open) dialog.close();
+        go("reader");
+    }
+
+    /* ============ EVENT DELEGATION ============ */
+    document.addEventListener("click", event => {
+        const button = event.target.closest("[data-action]");
+        if (!button || button.disabled) return;
+        if (button.tagName === "A") event.preventDefault();
+        const { action, id, value, kind } = button.dataset;
+        const index = Number(button.dataset.index);
+
+        switch (action) {
+            case "navigate":
+                if (dialog.open) dialog.close();
+                go(button.dataset.page);
+                break;
+            case "preview":
+                if (!bookById(id)) return;
+                if (dialog.open) dialog.close();
+                selectedBook = id;
+                go("detail");
+                break;
+            case "read": startReading(id); break;
+            case "browse":
+                document.getElementById("all-books")?.scrollIntoView({
+                    behavior: reducedMotion.matches ? "instant" : "smooth"
+                });
+                break;
+            case "settings": settingsDialog(); break;
+            case "close-dialog": dialog.close(); break;
+            case "theme":
+                state.theme = value;
+                save(); applyTheme();
+                dialogBody.querySelectorAll('[data-action="theme"]').forEach(item =>
+                    item.setAttribute("aria-pressed", String(item.dataset.value === value)));
+                break;
+            case "genre":
+                genre = value; visibleCount = 4; render(); break;
+            case "load-more":
+                visibleCount += 4; render(); break;
+            case "reset-filters":
+                genre = "Tất cả"; statusFilter = "all"; searchQuery = ""; visibleCount = 4;
+                document.getElementById("search-input").value = "";
+                render(); break;
+            case "favorite":
+                state.favorites = state.favorites.includes(id)
+                    ? state.favorites.filter(item => item !== id) : [...state.favorites,id];
+                save(); render();
+                toast(state.favorites.includes(id) ? "Đã cất truyện vào góc yêu thích." : "Đã bỏ đánh dấu yêu thích.");
+                break;
+            case "favorites-library":
+                libraryTab = "favorites"; go("library"); break;
+            case "library-tab":
+                libraryTab = value; render(); break;
+            case "toggle-completed":
+                state.library[id].completed = !state.library[id].completed;
+                save(); render(); break;
+            case "shop-tab":
+                shopTab = value; render(); break;
+            case "seed-shop":
+                if (dialog.open) dialog.close();
+                shopTab = "seeds"; go("shop"); break;
+            case "purchase": purchaseDialog(kind,id); break;
+            case "confirm-purchase": confirmPurchase(kind,id); break;
+            case "equip":
+                if (kind === "avatar" && state.ownedAvatars.includes(id)) state.avatar = id;
+                if (kind === "frame" && state.ownedFrames.includes(id)) state.frame = id;
+                save(); render(); toast("Đã đổi diện mạo cho bạn."); break;
+            case "plant-dialog": plantDialog(index); break;
+            case "plant":
+                if (state.garden[index] || !SEEDS[id] || !state.seeds[id]) return;
+                state.seeds[id]--;
+                state.garden[index] = { type: id, plantedAt: Date.now(), readyAt: Date.now()+SEEDS[id].duration };
+                save(); dialog.close(); render(); toast("Một mầm xanh vừa được gieo."); break;
+            case "harvest": {
+                const plant = state.garden[index];
+                if (!plant || Date.now() < plant.readyAt) return;
+                const seed = SEEDS[plant.type];
+                state.garden[index] = null;
+                state.plantsGrown++;
+                logTransaction(seed.reward, `Thu hoạch ${seed.name}`,true);
+                render(); toast(`Thu hoạch thành công. Nhận ${seed.reward} xu chanh.`);
+                break;
             }
-            alert(`Đã thêm "${name}" vào kho thành công! ✨`);
-            document.getElementById('adminGearName').value = '';
-            document.getElementById('adminGearFile').value = '';
-        }
-
-        function resetRightSidebar() {
-            document.getElementById('rightSidebar').innerHTML = `
-                <div class="preview-box">
-                    <h3><img src="assets/Đại gia.png" alt="Đại gia" style="width:20px;height:20px;object-fit:contain;"> BXH Đại Gia Xu</h3>
-                    <div style="font-size: 0.85rem; line-height: 1.6; text-align: center; padding: 5px 0;">
-                        👑 <b>ABCD...</b><br>
-                        <span style="color: var(--accent-yellow); font-weight: bold;">300,000 xu chanh</span>
-                    </div>
-                </div>
-                <div class="preview-box">
-                    <h3><img src="assets/Đại gia.png" alt="Đại gia" style="width:20px;height:20px;object-fit:contain;"> BXH Trồng Cây</h3>
-                    <div style="font-size: 0.85rem; line-height: 1.6; text-align: center; padding: 5px 0;">
-                        🌱 <b>Chanh Chanh</b><br>
-                        <span style="color: var(--accent-yellow); font-weight: bold;">50 cây chanh vàng</span>
-                    </div>
-                </div>
-                <div class="preview-box">
-                    <h3><img src="assets/Đại gia.png" alt="Đại gia" style="width:20px;height:20px;object-fit:contain;"> BXH Thời Gian</h3>
-                    <div style="font-size: 0.85rem; line-height: 1.6; text-align: center; padding: 5px 0;">
-                        ⏳ <b>Lannyy</b><br>
-                        <span style="color: var(--accent-yellow); font-weight: bold;">1,200 giờ đọc</span>
-                    </div>
-                </div>
-            `;
-        }
-
-        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-
-        function saveName() {
-            const newName = document.getElementById('inputUsername').value;
-            document.getElementById('topUsername').innerText = newName;
-            document.getElementById('houseUsername').innerText = newName;
-            closeModal('profileModal');
-            alert('Đổi tên thành công!');
-        }
-
-        function setGear(type, filename) {
-            if(type === 'avatar') {
-                document.getElementById('topAvatarImg').src = 'assets/' + filename;
-                alert('Đã đặt làm Avatar thành công! ✨');
-            } else if(type === 'frame') {
-                const frameEl = document.getElementById('topFrameImg');
-                frameEl.src = 'assets/' + filename;
-                frameEl.style.display = 'block';
-                alert('Đã đặt làm Khung viền thành công! 🖼️');
+            case "plant-info": {
+                const plant = state.garden[index];
+                if (!plant) return;
+                const remaining = Math.max(0,Math.ceil((plant.readyAt-Date.now())/60000));
+                openDialog("Mầm xanh đang lớn", `<p>${SEEDS[plant.type].name} còn khoảng <strong>${remaining} phút</strong>.</p>
+            <p class="muted">Cây tiếp tục lớn khi bạn rời trang. Thời gian trong bản demo dùng đồng hồ thiết bị, chưa chống gian lận.</p>`);
+                break;
             }
+            case "journal-filter": journalFilter = value; render(); break;
+            case "review-editor": reviewEditor(id,button.dataset.book); break;
+            case "delete-review":
+                openDialog("Xóa ghi chú này?", `<p>Ghi chú đã xóa sẽ không khôi phục được trong bản demo.</p>
+            <button class="danger" data-action="confirm-delete-review" data-id="${id}">Xóa ghi chú</button>
+            <button class="quiet" data-action="close-dialog">Giữ lại</button>`);
+                break;
+            case "confirm-delete-review":
+                state.reviews = state.reviews.filter(review => review.id !== id);
+                save(); dialog.close(); render(); toast("Đã xóa ghi chú."); break;
+            case "edit-name":
+                openDialog("Bạn muốn được gọi là gì?", `<form id="name-form">
+            <div class="form-field"><label for="new-name">Tên độc giả</label>
+            <input id="new-name" name="name" required maxlength="30" value="${escapeHTML(state.name)}"></div>
+            <button class="primary" type="submit">Lưu tên mới</button></form>`);
+                break;
+            case "rank": rankTab = value; renderRight(); break;
+            case "public-profile":
+                openDialog("Một người bạn ở Tiệm Chanh", `
+            <div class="row" style="margin-bottom:20px">
+              ${avatar(button.dataset.name,"#d7e3d0","gold",true)}
+              <div><h3>${escapeHTML(button.dataset.name)}</h3><p class="muted">${escapeHTML(button.dataset.stat)}</p></div>
+            </div><div class="notice">Hồ sơ cộng đồng minh họa. Không hiển thị nhật ký hoặc review cá nhân.</div>`);
+                break;
+            case "comments": commentsDialog(index); break;
+            case "react-comment": {
+                const comment = (state.comments[activeThread] || []).find(item => item.id === id);
+                if (!comment) return;
+                comment.liked = !comment.liked; save(); paintComments(index); break;
+            }
+            case "reply-comment": {
+                const comment = (state.comments[activeThread] || []).find(item => item.id === id);
+                if (!comment) return;
+                replyTo = id;
+                document.getElementById("reply-label").textContent = `Đang trả lời ${comment.name}`;
+                document.getElementById("comment-text").focus();
+                break;
+            }
+            case "bookmark": {
+                const key = `${selectedBook}:${chapter}`;
+                state.bookmarks[key] = !state.bookmarks[key];
+                save(); render(); toast(state.bookmarks[key] ? "Đã đánh dấu chương này." : "Đã bỏ đánh dấu."); break;
+            }
+            case "toc": tocDialog(); break;
+            case "chapter": jumpChapter(chapter + Number(button.dataset.direction)); break;
+            case "jump-chapter": jumpChapter(Number(button.dataset.number)); break;
+            case "notifications":
+                openDialog("Có gì mới ở Tiệm Chanh?", `
+            <div class="notice">Thông báo minh họa, chưa kết nối server.</div>
+            <div style="padding:14px 0;border-bottom:1px solid var(--border)"><h3>Một câu chuyện mới đang chờ</h3>
+              <p class="muted" style="font-size:13px">Ghé kệ sách để khám phá những chương mới.</p>
+              <button data-action="navigate" data-page="home">Đến kệ sách</button></div>
+            <div style="padding-top:18px"><h3>Đừng quên khu vườn nhỏ</h3>
+              <p class="muted" style="font-size:13px">Bạn có thể trồng cây bằng hạt giống đã sở hữu.</p>
+              <button data-action="navigate" data-page="house">Ghé Nhà</button></div>`);
+                break;
+            case "logout":
+                openDialog("Về tài khoản", `<p>Đây là bản giao diện chạy cục bộ, chưa có phiên đăng nhập thật để đăng xuất.</p>
+            <p class="muted">Khi tích hợp backend, nút này cần kết thúc phiên xác thực và xóa dữ liệu nhạy cảm khỏi bộ nhớ trình duyệt.</p>`);
+                break;
+        }
+    });
+
+    document.addEventListener("submit", event => {
+        const form = event.target;
+        if (!(form instanceof HTMLFormElement)) return;
+        event.preventDefault();
+        const data = new FormData(form);
+
+        if (form.id === "search-form") {
+            searchQuery = document.getElementById("search-input").value.trim();
+            genre = "Tất cả"; statusFilter = "all"; visibleCount = 4;
+            go("home");
+            document.getElementById("all-books").scrollIntoView({ behavior: "instant" });
         }
 
-        let currentSize = 16;
-        function changeFontSize(dir) {
-            currentSize += dir * 2;
-            if (currentSize < 12) currentSize = 12;
-            if (currentSize > 24) currentSize = 24;
-            document.documentElement.style.setProperty('--font-size', currentSize + 'px');
+        if (form.id === "name-form") {
+            const name = String(data.get("name")).trim();
+            if (!name) return;
+            state.name = name.slice(0,30);
+            save(); dialog.close(); render(); toast("Tiệm Chanh đã nhớ tên mới của bạn.");
         }
 
-        function toggleTheme() {
-            document.body.classList.toggle('light-mode');
+        if (form.id === "review-form") {
+            const bookId = String(data.get("bookId"));
+            const status = String(data.get("status"));
+            const text = String(data.get("text")).trim();
+            if (!bookById(bookId)) return;
+            if (status === "written" && !text) {
+                document.getElementById("review-text").setCustomValidity("Hãy viết một chút cảm nhận hoặc chọn “Muốn review”.");
+                document.getElementById("review-text").reportValidity();
+                return;
+            }
+            const review = {
+                id: form.dataset.id || uid(), bookId, status,
+                rating: Math.min(5,Math.max(1,Number(data.get("rating")))),
+                text: text.slice(0,5000), updatedAt: Date.now()
+            };
+            const existing = state.reviews.findIndex(item => item.id === review.id);
+            if (existing >= 0) state.reviews[existing] = review;
+            else state.reviews.push(review);
+            save(); dialog.close(); go("explore"); toast("Đã lưu cảm nhận trên thiết bị.");
         }
 
-        // Chống bôi đen, chuột phải, phím tắt trích xuất
-        document.addEventListener('contextmenu', e => e.preventDefault());
-        document.addEventListener('selectstart', e => e.preventDefault());
-        document.addEventListener('keydown', function(e) {
-            if (
-                e.key === 'F12' || 
-                (e.ctrlKey && (e.key === 'c' || e.key === 'x' || e.key === 'u' || e.key === 's' || e.key === 'a')) ||
-                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C'))
-            ) {
-                e.preventDefault();
-                return false;
+        if (form.id === "comment-form") {
+            const text = String(data.get("text")).trim();
+            if (!text) return;
+            const index = Number(form.dataset.index);
+            state.comments[activeThread] ||= [];
+            state.comments[activeThread].push({
+                id: uid(), name: state.name, text: text.slice(0,1200),
+                at: Date.now(), parentId: replyTo, liked: false
+            });
+            save();
+            replyTo = null;
+            main.innerHTML = renderReader();
+            paintComments(index);
+            toast("Đã lưu bình luận cho đoạn này.");
+        }
+    });
+
+    document.addEventListener("input", event => {
+        if (event.target.id === "review-text") event.target.setCustomValidity("");
+    });
+
+    document.addEventListener("change", event => {
+        if (event.target.id === "status-filter") {
+            statusFilter = event.target.value; visibleCount = 4; render();
+        }
+        if (event.target.id === "font-size") {
+            state.fontSize = Number(event.target.value); save(); applyTheme();
+        }
+    });
+
+    dialog.addEventListener("click", event => {
+        if (event.target !== dialog) return;
+        const rectangle = dialog.getBoundingClientRect();
+        if (event.clientX < rectangle.left || event.clientX > rectangle.right ||
+            event.clientY < rectangle.top || event.clientY > rectangle.bottom) dialog.close();
+    });
+
+    /* Chỉ hạn chế sao chép trong vùng nội dung truyện.
+       Không khóa DevTools, không cản copy/paste trong ô nhập liệu. */
+    ["copy", "cut", "contextmenu", "selectstart", "dragstart"].forEach(type => {
+        document.addEventListener(type, event => {
+            if (event.target instanceof Element && event.target.closest(".reading-content")) {
+                event.preventDefault();
             }
         });
-    </script>
+    });
 
+    /* ============ ACTIVITY DEMO ============ */
+    let lastInteraction = performance.now();
+    let lastTick = performance.now();
+    ["pointerdown","pointermove","keydown","scroll","touchstart"].forEach(type => {
+        document.addEventListener(type, () => lastInteraction = performance.now(), { passive: true });
+    });
+    document.addEventListener("visibilitychange", () => {
+        lastTick = performance.now();
+        if (!document.hidden) lastInteraction = lastTick;
+    });
+    window.addEventListener("focus", () => {
+        lastInteraction = performance.now(); lastTick = lastInteraction;
+    });
+
+    function countdown() {
+        const remaining = Math.max(0,600-state.coinSeconds);
+        return `${Math.floor(remaining/60)}:${String(remaining%60).padStart(2,"0")}`;
+    }
+
+    function updateLiveStats() {
+        document.querySelectorAll("[data-balance]").forEach(item => item.textContent = number(state.coins));
+        document.querySelectorAll("[data-countdown]").forEach(item => item.textContent = countdown());
+        document.querySelectorAll("[data-online]").forEach(item => item.textContent = `${Math.floor(state.onlineSeconds/60)} phút`);
+        document.querySelectorAll("[data-lifetime]").forEach(item => item.textContent = `${number(state.lifetimeCoins)} xu`);
+        document.querySelectorAll("[data-coin-progress]").forEach(item => {
+            item.setAttribute("aria-valuenow",state.coinSeconds);
+            item.firstElementChild.style.width = `${state.coinSeconds/6}%`;
+        });
+        const rankStat = document.getElementById("your-rank-stat");
+        if (rankStat) rankStat.textContent = ownRankStat();
+    }
+
+    setInterval(() => {
+        const now = performance.now();
+        const elapsed = (now-lastTick)/1000;
+        lastTick = now;
+        /* Không cộng bù khi trình duyệt ngủ hoặc tab bị throttle. */
+        if (document.hidden || !document.hasFocus() || now-lastInteraction > 60000 || elapsed > 3) return;
+        const seconds = Math.max(0,Math.floor(elapsed));
+        state.onlineSeconds += seconds;
+        state.coinSeconds += seconds;
+        if (state.coinSeconds >= 600) {
+            state.coinSeconds -= 600;
+            logTransaction(1,"10 phút hoạt động hợp lệ",true);
+            toast("Thêm một chút bình yên, thêm 1 xu chanh.");
+        }
+        updateLiveStats();
+        if (state.onlineSeconds % 10 === 0) save();
+    },1000);
+
+    /* Làm mới trạng thái cây, không thay DOM khi người dùng đang nhập. */
+    setInterval(() => {
+        if (page === "house" && !dialog.open && !document.hidden &&
+            !["INPUT","TEXTAREA","SELECT"].includes(document.activeElement?.tagName)) {
+            main.innerHTML = renderHouse();
+        }
+    },30000);
+
+    window.addEventListener("pagehide", save);
+
+    /* Init */
+    document.getElementById("search-icon").innerHTML = icon("search");
+    document.getElementById("settings-button").innerHTML = icon("settings");
+    document.getElementById("notifications-button").innerHTML = icon("bell");
+    document.getElementById("logout-button").innerHTML = `${icon("logout")}<span>Đăng xuất</span>`;
+    applyTheme();
+    render();
+    if (storageWarning) toast("Không đọc được dữ liệu đã lưu. Giao diện đang dùng dữ liệu mặc định.");
+</script>
 </body>
 </html>
