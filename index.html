@@ -24,7 +24,6 @@
             --sidebar-bg: #e5e7eb;
         }
 
-        /* LỚP BẢO VỆ: CHẶN BÔI ĐEN VÀ CHỌN VĂN BẢN TOÀN TRANG */
         body {
             background-color: var(--bg-dark);
             color: var(--text-main);
@@ -36,14 +35,6 @@
             flex-direction: column;
             min-height: 100vh;
             transition: background 0.3s, color 0.3s;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        @media print {
-            body { display: none !important; }
         }
 
         /* 1. THANH CÔNG CỤ TRÊN CÙNG */
@@ -54,35 +45,83 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 50px;
+            height: 55px;
             box-sizing: border-box;
+            position: relative;
         }
 
         .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             font-weight: bold;
             color: var(--accent-yellow);
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             cursor: pointer;
+        }
+
+        .logo-area img {
+            height: 35px;
+            object-fit: contain;
+        }
+
+        .search-bar {
+            position: relative;
         }
 
         .search-bar input {
             background: var(--bg-dark);
             border: 1px solid var(--border-color);
             color: var(--text-main);
-            padding: 6px 12px;
+            padding: 6px 12px 6px 32px;
             border-radius: 8px;
             outline: none;
-            width: 220px;
+            width: 250px;
+        }
+
+        .search-bar::before {
+            content: "🔍";
+            position: absolute;
+            left: 10px;
+            top: 7px;
+            font-size: 0.85rem;
         }
 
         .user-actions {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
             font-size: 0.9rem;
         }
 
-        .user-actions img {
+        .notif-bell {
+            position: relative;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .notif-badge {
+            position: absolute;
+            top: -5px; right: -5px;
+            background: #ef4444;
+            color: #fff;
+            font-size: 0.65rem;
+            padding: 2px 5px;
+            border-radius: 50%;
+        }
+
+        .user-profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            background: rgba(255,255,255,0.05);
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .user-profile-btn img {
             width: 30px;
             height: 30px;
             border-radius: 50%;
@@ -94,10 +133,11 @@
         .main-layout {
             display: flex;
             flex: 1;
-            height: calc(100vh - 50px);
+            height: calc(100vh - 55px);
             overflow: hidden;
         }
 
+        /* Khung trái: Điều hướng */
         .sidebar-left {
             width: 220px;
             background: var(--sidebar-bg);
@@ -109,11 +149,15 @@
         }
 
         .nav-item {
-            padding: 10px 15px;
+            padding: 12px 15px;
             border-radius: 8px;
             cursor: pointer;
             transition: background 0.2s, color 0.2s;
             font-size: 0.95rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .nav-item:hover, .nav-item.active {
@@ -122,70 +166,113 @@
             border-left: 4px solid var(--accent-yellow);
         }
 
+        /* Khung giữa: Nội dung */
         .content-center {
             flex: 1;
             background: var(--bg-dark);
             padding: 30px;
             overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        }
+
+        .view-section {
+            display: none;
+        }
+
+        .view-section.active {
+            display: block;
         }
 
         .card-box {
             background: var(--card-bg);
             border: 2px solid var(--border-color);
             border-radius: 15px;
-            padding: 30px;
-            width: 100%;
-            max-width: 650px;
+            padding: 25px;
+            margin-bottom: 20px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
-        .tag-filter {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
+        .card-box h2 {
+            color: var(--accent-yellow);
+            margin-top: 0;
+            font-size: 1.4rem;
         }
 
-        .tag-pill {
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .story-card {
             background: var(--sidebar-bg);
             border: 1px solid var(--border-color);
-            color: var(--text-main);
-            padding: 4px 12px;
-            border-radius: 15px;
-            font-size: 0.85rem;
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
             cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
         }
 
-        .tag-pill:hover, .tag-pill.active {
+        .story-card:hover {
+            transform: translateY(-3px);
             border-color: var(--accent-yellow);
-            color: var(--accent-yellow);
         }
 
+        .story-thumb {
+            width: 100%;
+            height: 100px;
+            background: #2a3447;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        /* Khung phải: Preview / BXH Top 1 Đại gia */
         .sidebar-right {
-            width: 280px;
+            width: 300px;
             background: var(--sidebar-bg);
             border-left: 1px solid var(--border-color);
             padding: 20px;
             overflow-y: auto;
         }
 
-        .preview-section {
+        .preview-box {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 15px;
             margin-bottom: 15px;
         }
 
-        .preview-section h3 {
+        .preview-box h3 {
             color: var(--accent-yellow);
             font-size: 1rem;
             margin-top: 0;
             margin-bottom: 10px;
         }
+
+        .story-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 8px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            font-size: 0.85rem;
+        }
+
+        .btn-read { background: var(--accent-yellow); color: #000; }
+        .btn-save { background: var(--sidebar-bg); color: var(--text-main); border: 1px solid var(--border-color) !important; }
 
         /* 3. PLUGIN LỦNG LƠ GÓC PHẢI DƯỚI */
         .floating-plugin {
@@ -218,412 +305,292 @@
             color: var(--accent-yellow);
         }
 
-        /* 4. PLUGIN CHỦ TIỆM (ADMIN PANEL FULL CHỨC NĂNG) */
-        .admin-modal {
+        /* MODALS */
+        .modal-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.7);
             justify-content: center;
             align-items: center;
             z-index: 2000;
         }
 
-        .admin-content {
-            background: #121824;
-            border: 1px solid #2d3748;
-            border-radius: 16px;
+        .modal-box {
+            background: var(--card-bg);
+            border: 2px solid var(--accent-yellow);
+            border-radius: 15px;
             padding: 25px;
             width: 90%;
-            max-width: 520px;
-            max-height: 90vh;
-            overflow-y: auto;
-            color: #fff;
+            max-width: 450px;
+            color: var(--text-main);
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            -webkit-user-select: text;
-            user-select: text;
         }
 
-        .admin-header {
+        .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
         }
 
-        .admin-header h3 {
-            margin: 0;
-            color: #fff;
-            font-size: 1.1rem;
+        .modal-header h3 { margin: 0; color: var(--accent-yellow); }
+
+        .close-modal {
+            background: none; border: none; color: #a0aec0; font-size: 1.2rem; cursor: pointer;
         }
 
-        .close-btn {
-            background: #2a3447;
-            border: none;
-            color: #a0aec0;
-            width: 28px; height: 28px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .form-group {
-            margin-bottom: 14px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            font-size: 0.75rem;
-            letter-spacing: 0.5px;
-            color: #a0aec0;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-
-        .form-group input, .form-group textarea, .form-group select {
-            width: 100%;
+        .notif-item {
             padding: 10px;
-            background: #1a2233;
-            border: 1px solid #2a3447;
-            color: #fff;
-            border-radius: 8px;
-            box-sizing: border-box;
+            border-bottom: 1px solid var(--border-color);
             font-size: 0.9rem;
-            outline: none;
-        }
-
-        .form-group input:focus, .form-group textarea:focus {
-            border-color: var(--accent-yellow);
-        }
-
-        .editor-tools {
-            display: flex;
-            gap: 5px;
-            flex-wrap: wrap;
-            margin-top: 6px;
-        }
-
-        .tool-btn {
-            background: #1a2233;
-            border: 1px solid #2a3447;
-            color: #fff;
-            padding: 5px 8px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            cursor: pointer;
-        }
-
-        .tool-btn:hover {
-            border-color: var(--accent-yellow);
-            color: var(--accent-yellow);
-        }
-
-        .admin-tabs {
-            display: flex;
-            gap: 6px;
-            margin-bottom: 15px;
-            background: #1a2233;
-            padding: 4px;
-            border-radius: 10px;
-        }
-
-        .admin-tab-btn {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: #a0aec0;
-            padding: 8px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        .admin-tab-btn.active {
-            background: #2a3447;
-            color: var(--accent-yellow);
-        }
-
-        /* KHung Preview Tròn cho Avatar & Khung */
-        .preview-avatar-container {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            background: #1a2233;
-            padding: 12px;
-            border-radius: 12px;
-            border: 1px dashed #2a3447;
-            margin-top: 8px;
-        }
-
-        .avatar-preview-box {
-            position: relative;
-            width: 75px;
-            height: 75px;
-            flex-shrink: 0;
-        }
-
-        .avatar-preview-box img.preview-avt {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--accent-yellow);
-        }
-
-        .avatar-preview-box img.preview-frm {
-            position: absolute;
-            top: -6px;
-            left: -6px;
-            width: 87px;
-            height: 87px;
-            pointer-events: none;
-        }
-
-        .preview-info {
-            font-size: 0.8rem;
-            color: #94a3b8;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 20px;
-        }
-
-        .modal-actions button {
-            padding: 10px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 0.9rem;
-            border: none;
-        }
-
-        .btn-cancel {
-            background: #1a2233;
-            color: #a0aec0;
-            border: 1px solid #2a3447 !important;
-            flex: 1;
-        }
-
-        .btn-draft {
-            background: #2b6cb0;
-            color: #fff;
-            flex: 1;
-        }
-
-        .btn-submit {
-            background: var(--accent-yellow);
-            color: #0f172a;
-            flex: 2;
+            margin-bottom: 8px;
         }
     </style>
 </head>
 <body>
 
-    <!-- 1. Thanh công cụ trên cùng -->
+    <!-- 1. THANH CÔNG CỤ TRÊN CÙNG -->
     <div class="top-toolbar">
-        <div class="logo-area">🍋 Quầy Bán Chanh</div>
+        <div class="logo-area" onclick="switchTab('home')">
+            <img src="assets/logo.gif" alt="Logo Chanh" onerror="this.style.display='none'">
+            <span>Quầy Bán Chanh 🍋</span>
+        </div>
+        
         <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Tìm kiếm truyện, tags...">
+            <input type="text" placeholder="Tìm kiếm tên truyện, tags...">
         </div>
+
         <div class="user-actions">
-            <span>Chanh 🍋</span>
-            <img src="assets/avatar.png" alt="Avatar" id="navAvatar">
-            <span style="cursor: pointer; color: var(--accent-yellow); font-weight: bold;" onclick="toggleAdminPanel()">👑 Chủ tiệm</span>
-            <span style="cursor: pointer; color: #ef4444;">Đăng xuất</span>
+            <div class="notif-bell" onclick="openModal('notifModal')">
+                🔔
+                <span class="notif-badge">3</span>
+            </div>
+
+            <div class="user-profile-btn" onclick="openModal('profileModal')">
+                <img src="assets/avatar.png" alt="Avatar" id="topAvatarImg" onerror="this.src='https://via.placeholder.com/30'">
+                <span id="topUsername">Chanh 🍋</span>
+            </div>
+
+            <span style="cursor: pointer; color: #ef4444; font-size: 0.85rem;" onclick="alert('Đã đăng xuất!')">Đăng xuất</span>
         </div>
     </div>
 
-    <!-- 2. Bố cục 3 Khung -->
+    <!-- 2. BỐ CỤC 3 KHUNG CHÍNH -->
     <div class="main-layout">
-        <!-- Khung trái -->
+        <!-- Khung trái: Điều hướng -->
         <div class="sidebar-left">
-            <div class="nav-item active">🏠 Trang chủ</div>
-            <div class="nav-item">🎒 Túi mua hàng (Thư viện)</div>
-            <div class="nav-item">🛒 Cửa hàng</div>
-            <div class="nav-item">🏡 Nhà (Cá nhân)</div>
-            <div class="nav-item">🧭 Khám phá (Review)</div>
+            <div class="nav-item active" onclick="switchTab('home')">🏠 Trang chủ</div>
+            <div class="nav-item" onclick="switchTab('library')">🎒 Túi mua hàng</div>
+            <div class="nav-item" onclick="switchTab('shop')">🛒 Cửa hàng</div>
+            <div class="nav-item" onclick="switchTab('explore')">🧭 Khám phá</div>
+            <div style="margin-top: auto;"></div>
+            <div class="nav-item" style="color: var(--accent-yellow);" onclick="alert('Mở bảng quản trị chủ tiệm!')">👑 Chủ tiệm</div>
         </div>
 
-        <!-- Khung giữa -->
+        <!-- Khung giữa: Nội dung -->
         <div class="content-center">
-            <div class="card-box">
-                <div class="tag-filter">
-                    <span class="tag-pill active">Tất cả</span>
-                    <span class="tag-pill">#CosmicHorror</span>
-                    <span class="tag-pill">#BoyLove</span>
-                    <span class="tag-pill">#ReviewHot</span>
-                    <span class="tag-pill">#ChibiArt</span>
+            
+            <!-- TRANG CHỦ -->
+            <div id="tab-home" class="view-section active">
+                <div class="card-box">
+                    <h2>🔥 Truyện nổi tiếng nhất (Lượt đọc)</h2>
+                    <div class="grid-cards">
+                        <div class="story-card" onclick="selectStory('Đông Vực Cô Độc', 'Cosmic Horror cuốn hút...')">
+                            <div class="story-thumb">📖</div>
+                            <b>Đông Vực Cô Độc</b>
+                            <div style="font-size: 0.8rem; color: #9ca3af;">12.5k lượt đọc</div>
+                        </div>
+                        <div class="story-card" onclick="selectStory('Tôi Thích Tin Tức Tố Của Cậu', 'Romance ngọt ngào...')">
+                            <div class="story-thumb">📖</div>
+                            <b>Tin Tức Tố</b>
+                            <div style="font-size: 0.8rem; color: #9ca3af;">9.8k lượt đọc</div>
+                        </div>
+                    </div>
                 </div>
 
-                <h2>Khu vực hiển thị chính 🍋</h2>
-                <p id="mainDisplayContent">Chọn danh mục bên trái hoặc lọc theo tags để xem nội dung tại đây.</p>
-                <div style="margin-top: 20px; font-size: 1.8rem;">
-                    ✨ 🌿 💛 🚀 🎨
+                <div class="card-box">
+                    <h2>💖 Truyện yêu thích nhất (Lượt xu)</h2>
+                    <div class="grid-cards">
+                        <div class="story-card" onclick="selectStory('Hải Yến Tầm Phong', 'Thanh xuân vườn trường...')">
+                            <div class="story-thumb">✨</div>
+                            <b>Hải Yến Tầm Phong</b>
+                            <div style="font-size: 0.8rem; color: #9ca3af;">5.2k xu</div>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <!-- TÚI MUA HÀNG -->
+            <div id="tab-library" class="view-section">
+                <div class="card-box">
+                    <h2>🎒 Truyện đã lưu</h2>
+                    <div class="grid-cards">
+                        <div class="story-card">
+                            <div class="story-thumb">📚</div>
+                            <b>Đông Vực Cô Độc</b>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-box">
+                    <h2>🕒 Truyện đã đọc gần đây & Tiến độ</h2>
+                    <div style="font-size: 0.9rem; line-height: 1.6;">
+                        <p>📖 <b>Đông Vực Cô Độc</b> — Đang ở: <i>Chương 10</i></p>
+                        <p>📖 <b>Tôi Thích Tin Tức Tố Của Cậu</b> — Đang ở: <i>Chương 20</i></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CỬA HÀNG -->
+            <div id="tab-shop" class="view-section">
+                <div class="card-box">
+                    <h2>🛒 Cửa hàng Tiệm Chanh</h2>
+                    <p style="color: #9ca3af; font-size: 0.9rem;">Mua sắm Avatar, khung viền độc quyền và các loại hạt giống mầm cây!</p>
+                    <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
+                        <span style="background: var(--sidebar-bg); padding: 8px 15px; border-radius: 8px; border: 1px solid var(--border-color);">✨ Avatar độc quyền</span>
+                        <span style="background: var(--sidebar-bg); padding: 8px 15px; border-radius: 8px; border: 1px solid var(--border-color);">🖼️ Khung viền chanh xịn</span>
+                        <span style="background: var(--sidebar-bg); padding: 8px 15px; border-radius: 8px; border: 1px solid var(--border-color);">🌱 Hạt giống vườn ươm</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KHÁM PHÁ -->
+            <div id="tab-explore" class="view-section">
+                <div class="card-box">
+                    <h2>🧭 Khám phá theo Tags</h2>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;">
+                        <span style="background: var(--sidebar-bg); padding: 6px 14px; border-radius: 15px; border: 1px solid var(--border-color); cursor: pointer;">#Hiện đại</span>
+                        <span style="background: var(--sidebar-bg); padding: 6px 14px; border-radius: 15px; border: 1px solid var(--border-color); cursor: pointer;">#Kinh dị</span>
+                        <span style="background: var(--sidebar-bg); padding: 6px 14px; border-radius: 15px; border: 1px solid var(--border-color); cursor: pointer;">#Nhẹ nhàng</span>
+                        <span style="background: var(--sidebar-bg); padding: 6px 14px; border-radius: 15px; border: 1px solid var(--border-color); cursor: pointer;">#BoyLove</span>
+                    </div>
+                    <h2>⭐ Đề cử từ Chủ Tiệm</h2>
+                    <p style="color: #9ca3af; font-size: 0.9rem;">Danh sách những bộ truyện tâm đắc nhất do chính tay Chanh chọn lọc.</p>
+                </div>
+            </div>
+
         </div>
 
-        <!-- Khung phải -->
-        <div class="sidebar-right">
-            <div class="preview-section">
-                <h3>🏆 Top 1 Bảng Xếp Hạng</h3>
-                <p style="font-size: 0.9rem; margin: 0;">Truyện hot: <i>Đông Vực Cô Độc</i></p>
+        <!-- Khung phải: Chỉ hiển thị Top 1 Đại gia độc tôn -->
+        <div class="sidebar-right" id="rightSidebar">
+            <div class="preview-box">
+                <h3>👑 BXH Đại Gia (Top 1)</h3>
+                <div style="font-size: 0.9rem; line-height: 1.8; text-align: center; padding: 10px 0;">
+                    👑 <b>ABCD...</b><br>
+                    <span style="color: var(--accent-yellow); font-weight: bold;">300,000 xu chanh</span>
+                </div>
             </div>
-            <div class="preview-section">
-                <h3>📖 Giới thiệu vắn tắt</h3>
-                <p style="font-size: 0.85rem; color: #9ca3af; margin: 0;">Hành trình giải mã thế giới cosmic horror đầy bí ẩn...</p>
+            <div class="preview-box">
+                <h3>🏆 BXH Truyện</h3>
+                <div style="font-size: 0.85rem; line-height: 1.6;">
+                    1. Đông Vực Cô Độc<br>
+                    2. Tin Tức Tố Của Cậu
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- 3. Plugin lửng lơ -->
+    <!-- 3. PLUGIN LỦNG LƠ GÓC PHẢI DƯỚI -->
     <div class="floating-plugin">
         <button class="plugin-btn" onclick="changeFontSize(-1)">A-</button>
         <button class="plugin-btn" onclick="changeFontSize(1)">A+</button>
         <button class="plugin-btn" onclick="toggleTheme()">🌙/☀️</button>
     </div>
 
-    <!-- 4. PLUGIN CHỦ TIỆM (ADMIN PANEL FULL OPTION) -->
-    <div class="admin-modal" id="adminModal">
-        <div class="admin-content">
-            <div class="admin-header">
-                <h3 id="adminModalTitle">Quản lý & Đăng tải</h3>
-                <button class="close-btn" onclick="toggleAdminPanel()">×</button>
+    <!-- MODAL THÔNG BÁO -->
+    <div class="modal-overlay" id="notifModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>🔔 Hộp Thông Báo</h3>
+                <button class="close-modal" onclick="closeModal('notifModal')">×</button>
             </div>
+            <div class="notif-item">📢 Chủ nhà vừa đăng chương mới truyện <i>Đông Vực Cô Độc</i>.</div>
+            <div class="notif-item">💬 Bình luận của bạn đã được chủ tiệm trả lời.</div>
+            <div class="notif-item">🌱 Thu hoạch thành công cây Chanh Vàng nhận được <b>500 xu chanh</b>!</div>
+        </div>
+    </div>
 
-            <!-- Tab chuyển đổi -->
-            <div class="admin-tabs">
-                <button class="admin-tab-btn active" onclick="switchAdminTab('story')">Truyện</button>
-                <button class="admin-tab-btn" onclick="switchAdminTab('chapter')">Chương</button>
-                <button class="admin-tab-btn" onclick="switchAdminTab('asset')">Avatar & Khung</button>
+    <!-- MODAL CHỈNH SỬA PROFILE CÁ NHÂN -->
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>⚙️ Chỉnh sửa thông tin cá nhân</h3>
+                <button class="close-modal" onclick="closeModal('profileModal')">×</button>
             </div>
-
-            <!-- TAB 1: TẠO / SỬA TRUYỆN -->
-            <div id="tabStory">
-                <div class="form-group">
-                    <label>Tên truyện *</label>
-                    <input type="text" id="storyTitle" placeholder="Nhập tên truyện...">
-                </div>
-                <div class="form-group">
-                    <label>Tác giả *</label>
-                    <input type="text" id="storyAuthor" placeholder="Nhập để tìm tác giả...">
-                </div>
-                <div class="form-group">
-                    <label>Nguồn gốc (Raw Source)</label>
-                    <input type="text" id="storyRaw" placeholder="Tên nguồn truyện gốc...">
-                </div>
-                <div class="form-group">
-                    <label>Trạng thái</label>
-                    <select id="storyStatus">
-                        <option value="Đang tiến hành">🟢 Đang tiến hành</option>
-                        <option value="Hoàn thành">✅ Hoàn thành</option>
-                        <option value="Tạm ẩn">🔒 Tạm ẩn</option>
-                    </select>
-                </div>
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.85rem; color: #a0aec0; display:block; margin-bottom:5px;">Tên độc giả:</label>
+                <input type="text" id="inputUsername" value="Chanh 🍋" style="width:100%; padding:8px; background:#1a2233; border:1px solid var(--border-color); color:#fff; border-radius:6px;">
             </div>
-
-            <!-- TAB 2: TẠO / SỬA CHƯƠNG -->
-            <div id="tabChapter" style="display: none;">
-                <div class="form-group">
-                    <label>Tiêu đề chương *</label>
-                    <input type="text" id="chapterTitle" placeholder="VD: Chương 1: Hội ngộ...">
-                </div>
-                <div class="form-group">
-                    <label>Nội dung chương</label>
-                    <textarea id="chapterContent" rows="5" placeholder="Soạn trực tiếp hoặc dán từ Word..."></textarea>
-                    
-                    <div class="editor-tools">
-                        <button class="tool-btn"><b>B</b></button>
-                        <button class="tool-btn"><i>I</i></button>
-                        <button class="tool-btn"><u>U</u></button>
-                        <button class="tool-btn" onclick="setAlign('left')">⬅️ Trái</button>
-                        <button class="tool-btn" onclick="setAlign('center')">🔲 Giữa</button>
-                        <button class="tool-btn" onclick="setAlign('right')">➡️ Phải</button>
-                        <button class="tool-btn">📄 .txt</button>
-                        <button class="tool-btn">📄 .docx</button>
-                        <button class="tool-btn">🖼️ Ảnh</button>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Trạng thái hiển thị</label>
-                    <select id="chapterStatus">
-                        <option value="Công khai">Phát hành công khai</option>
-                        <option value="Lưu nháp">Lưu nháp (Chưa công khai)</option>
-                        <option value="Ẩn">Ẩn / Xóa tạm thời</option>
-                    </select>
-                </div>
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.85rem; color: #a0aec0; display:block; margin-bottom:5px;">Chọn Avatar / Khung cá nhân:</label>
+                <input type="text" id="inputAvatarUrl" placeholder="Nhập tên file ảnh trong thư mục assets (vd: avatar.png)" style="width:100%; padding:8px; background:#1a2233; border:1px solid var(--border-color); color:#fff; border-radius:6px;">
             </div>
-
-            <!-- TAB 3: REVIEW & ASSET (CÓ PREVIEW AVATAR TRÒN) -->
-            <div id="tabAsset" style="display: none;">
-                <div class="form-group">
-                    <label>Nội dung Review của Chủ Tiệm</label>
-                    <textarea id="reviewText" rows="2" placeholder="Nhập cảm nhận, review sách..."></textarea>
-                </div>
-
-                <!-- Khung xem trước Avatar & Khung hình tròn -->
-                <div class="form-group">
-                    <label>Xem trước Avatar & Khung (Preview Form)</label>
-                    <div class="preview-avatar-container">
-                        <div class="avatar-preview-box">
-                            <img src="assets/avatar.png" alt="Preview AVT" class="preview-avt" id="previewAvtImg">
-                            <img src="assets/frame.png" alt="Preview Frame" class="preview-frm" id="previewFrmImg">
-                        </div>
-                        <div class="preview-info">
-                            <span>Ướm thử khung mẫu tròn. Đảm bảo tỷ lệ khớp khít trước khi xuất xưởng! 🍋</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Tải lên Avatar mới</label>
-                    <input type="file" id="uploadAvatarFile" accept="image/*" onchange="previewImage(event, 'previewAvtImg')">
-                </div>
-                <div class="form-group">
-                    <label>Tải lên Khung (Frame) / Emoji mới</label>
-                    <input type="file" id="uploadAssetFile" accept="image/*" onchange="previewImage(event, 'previewFrmImg')">
-                </div>
-            </div>
-
-            <!-- Nút hành động đáy modal (Có đầy đủ Lưu nháp, Sửa, Xóa) -->
-            <div class="modal-actions">
-                <button class="btn-cancel" onclick="toggleAdminPanel()">Hủy</button>
-                <button class="btn-draft" onclick="saveDraftAction()">💾 Lưu nháp</button>
-                <button class="btn-submit" onclick="submitAdminForm()">🚀 Phát hành</button>
-            </div>
+            <button class="plugin-btn" style="background:var(--accent-yellow); color:#000; width:100%; font-weight:bold; padding:10px;" onclick="saveProfile()">Lưu thay đổi</button>
         </div>
     </div>
 
     <script>
-        // LỚP BẢO VỆ: CHẶN CHUỘT PHẢI & PHÍM TẮT TRỘM CODE
-        document.addEventListener('contextmenu', e => e.preventDefault());
-        document.addEventListener('keydown', function(e) {
-            if (e.keyCode === 123 || 
-                (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 67 || e.keyCode === 74)) || 
-                (e.ctrlKey && (e.keyCode === 85 || e.keyCode === 83 || e.keyCode === 80 || e.keyCode === 67 || e.keyCode === 88))) {
-                e.preventDefault();
-                alert('🚫 Quầy Chanh bảo mật bản quyền: Hành động này bị nghiêm cấm!');
-                return false;
-            }
-        });
+        function switchTab(tabId) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
 
-        // BẪY MÃ HÓA COPY (@$%)
-        document.addEventListener('copy', function(e) {
-            e.preventDefault();
-            const fakeText = "@#$%-TiemChanh-Protected-Data-%$#@-Copyright-Protected-Text-@!$%^&*";
-            if (e.clipboardData) {
-                e.clipboardData.setData('text/plain', fakeText);
-            }
-            alert('⚠️ Cảnh báo: Nội dung tại Quầy Chanh được bảo vệ bản quyền! Sao chép sẽ bị mã hóa thành ký tự nhiễu.');
-        });
+            document.querySelectorAll('.sidebar-left .nav-item').forEach(el => el.classList.remove('active'));
+            event.currentTarget.classList.add('active');
 
-        let currentTab = 'story';
+            if(tabId === 'home') { resetRightSidebar(); }
+        }
+
+        function selectStory(title, desc) {
+            const rightSidebar = document.getElementById('rightSidebar');
+            rightSidebar.innerHTML = `
+                <div class="preview-box">
+                    <h3>📖 Xem Truyện</h3>
+                    <h4 style="color: var(--accent-yellow); margin: 5px 0;">${title}</h4>
+                    <p style="font-size: 0.85rem; color: #9ca3af;">${desc}</p>
+                    <div class="story-actions">
+                        <button class="action-btn btn-read" onclick="alert('Bắt đầu đọc truyện: ${title}')">Đọc truyện</button>
+                        <button class="action-btn btn-save" onclick="alert('Đã lưu ${title} vào Túi mua hàng!')">Lưu</button>
+                    </div>
+                    <button style="background:none; border:none; color:#a0aec0; font-size:0.8rem; cursor:pointer; margin-top:10px;" onclick="resetRightSidebar()">⬅️ Quay lại BXH</button>
+                </div>
+            `;
+        }
+
+        function resetRightSidebar() {
+            document.getElementById('rightSidebar').innerHTML = `
+                <div class="preview-box">
+                    <h3>👑 BXH Đại Gia (Top 1)</h3>
+                    <div style="font-size: 0.9rem; line-height: 1.8; text-align: center; padding: 10px 0;">
+                        👑 <b>ABCD...</b><br>
+                        <span style="color: var(--accent-yellow); font-weight: bold;">300,000 xu chanh</span>
+                    </div>
+                </div>
+                <div class="preview-box">
+                    <h3>🏆 BXH Truyện</h3>
+                    <div style="font-size: 0.85rem; line-height: 1.6;">
+                        1. Đông Vực Cô Độc<br>
+                        2. Tin Tức Tố Của Cậu
+                    </div>
+                </div>
+            `;
+        }
+
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+        function saveProfile() {
+            const newName = document.getElementById('inputUsername').value;
+            const newAvatar = document.getElementById('inputAvatarUrl').value;
+            document.getElementById('topUsername').innerText = newName;
+            if(newAvatar) {
+                document.getElementById('topAvatarImg').src = 'assets/' + newAvatar;
+            }
+            closeModal('profileModal');
+            alert('Đã cập nhật thông tin cá nhân thành công!');
+        }
+
         let currentSize = 16;
-
         function changeFontSize(dir) {
             currentSize += dir * 2;
             if (currentSize < 12) currentSize = 12;
@@ -633,72 +600,6 @@
 
         function toggleTheme() {
             document.body.classList.toggle('light-mode');
-        }
-
-        function toggleAdminPanel() {
-            const modal = document.getElementById('adminModal');
-            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
-        }
-
-        function switchAdminTab(tab) {
-            currentTab = tab;
-            document.getElementById('tabStory').style.display = tab === 'story' ? 'block' : 'none';
-            document.getElementById('tabChapter').style.display = tab === 'chapter' ? 'block' : 'none';
-            document.getElementById('tabAsset').style.display = tab === 'asset' ? 'block' : 'none';
-            
-            const btns = document.querySelectorAll('.admin-tab-btn');
-            btns.forEach(b => b.classList.remove('active'));
-            
-            if(tab === 'story') {
-                btns[0].classList.add('active');
-                document.getElementById('adminModalTitle').innerText = 'Quản lý Truyện';
-            } else if(tab === 'chapter') {
-                btns[1].classList.add('active');
-                document.getElementById('adminModalTitle').innerText = 'Quản lý Chương & Chỉnh sửa';
-            } else {
-                btns[2].classList.add('active');
-                document.getElementById('adminModalTitle').innerText = 'Review & Preview Avatar/Khung';
-            }
-        }
-
-        function setAlign(alignment) {
-            const textarea = document.getElementById('chapterContent');
-            textarea.style.textAlign = alignment;
-        }
-
-        // Xem trước hình ảnh trực tiếp lên khung mẫu tròn
-        function previewImage(event, targetId) {
-            const reader = new FileReader();
-            reader.onload = function(){
-                document.getElementById(targetId).src = reader.result;
-            }
-            reader.readAsDataURL(event.target.files[0]);
-        }
-
-        function saveDraftAction() {
-            alert('📥 Đã lưu vào mục Bản nháp thành công!');
-            toggleAdminPanel();
-        }
-
-        function submitAdminForm() {
-            if(currentTab === 'story') {
-                const title = document.getElementById('storyTitle').value;
-                if(!title) { alert('Chủ tiệm chưa nhập tên truyện kìa!'); return; }
-                alert('Đã cập nhật / tạo truyện thành công: ' + title);
-            } else if(currentTab === 'chapter') {
-                const chTitle = document.getElementById('chapterTitle').value;
-                if(!chTitle) { alert('Chủ tiệm chưa nhập tiêu đề chương kìa!'); return; }
-                alert('Đã phát hành chương mới thành công!');
-            } else {
-                const review = document.getElementById('reviewText').value;
-                const avtSrc = document.getElementById('previewAvtImg').src;
-                document.getElementById('navAvatar').src = avtSrc;
-                if(review) {
-                    document.getElementById('mainDisplayContent').innerHTML = '<b>Review mới từ Chủ tiệm:</b><br>' + review;
-                }
-                alert('Đã cập nhật giao diện, avatar và review thành công!');
-            }
-            toggleAdminPanel();
         }
     </script>
 
