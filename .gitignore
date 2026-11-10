@@ -1,0 +1,19 @@
+
+# Local tooling and artifacts
+.idea/
+.vscode/
+.vercel/
+/_local/
+/.agents/
+.cache/
+.temp/
+.tmp/
+logs/
+*.log
+*.tmp
+*.bak
+
+
+# Keep only the root project introduction in Markdown
+*.[mM][dD]
+!/README.md
