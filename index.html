@@ -137,7 +137,7 @@
             overflow: hidden;
         }
 
-        /* Khung trái: Điều hướng */
+        /* Khung trái: Điều hướng (gắn icon minh họa) */
         .sidebar-left {
             width: 220px;
             background: var(--sidebar-bg);
@@ -149,7 +149,7 @@
         }
 
         .nav-item {
-            padding: 12px 15px;
+            padding: 10px 15px;
             border-radius: 8px;
             cursor: pointer;
             transition: background 0.2s, color 0.2s;
@@ -157,7 +157,13 @@
             font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+        }
+
+        .nav-item img {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
         }
 
         .nav-item:hover, .nav-item.active {
@@ -353,7 +359,7 @@
     <!-- 1. THANH CÔNG CỤ TRÊN CÙNG -->
     <div class="top-toolbar">
         <div class="logo-area" onclick="switchTab('home')">
-            <img src="assets/logo.gif" alt="Logo Chanh" onerror="this.style.display='none'">
+            <img src="assets/Logo.png" alt="Logo Chanh" onerror="this.style.display='none'">
             <span>Quầy Bán Chanh 🍋</span>
         </div>
         
@@ -368,7 +374,7 @@
             </div>
 
             <div class="user-profile-btn" onclick="openModal('profileModal')">
-                <img src="assets/avatar.png" alt="Avatar" id="topAvatarImg" onerror="this.src='https://via.placeholder.com/30'">
+                <img src="assets/Logo.png" alt="Avatar" id="topAvatarImg" onerror="this.src='https://via.placeholder.com/30'">
                 <span id="topUsername">Chanh 🍋</span>
             </div>
 
@@ -378,12 +384,20 @@
 
     <!-- 2. BỐ CỤC 3 KHUNG CHÍNH -->
     <div class="main-layout">
-        <!-- Khung trái: Điều hướng -->
+        <!-- Khung trái: Điều hướng gắn asset icon vừa up -->
         <div class="sidebar-left">
-            <div class="nav-item active" onclick="switchTab('home')">🏠 Trang chủ</div>
-            <div class="nav-item" onclick="switchTab('library')">🎒 Túi mua hàng</div>
-            <div class="nav-item" onclick="switchTab('shop')">🛒 Cửa hàng</div>
-            <div class="nav-item" onclick="switchTab('explore')">🧭 Khám phá</div>
+            <div class="nav-item active" onclick="switchTab('home')">
+                <img src="assets/Trang chủ.png" alt="Trang chủ"> Trang chủ
+            </div>
+            <div class="nav-item" onclick="switchTab('library')">
+                <img src="assets/Túi mua hàng.png" alt="Túi mua hàng"> Túi mua hàng
+            </div>
+            <div class="nav-item" onclick="switchTab('shop')">
+                <img src="assets/Cửa hàng.png" alt="Cửa hàng"> Cửa hàng
+            </div>
+            <div class="nav-item" onclick="switchTab('explore')">
+                <img src="assets/Khám phá.png" alt="Khám phá"> Khám phá
+            </div>
             <div style="margin-top: auto;"></div>
             <div class="nav-item" style="color: var(--accent-yellow);" onclick="alert('Mở bảng quản trị chủ tiệm!')">👑 Chủ tiệm</div>
         </div>
@@ -472,7 +486,7 @@
 
         </div>
 
-        <!-- Khung phải: Chỉ hiển thị Top 1 Đại gia độc tôn -->
+        <!-- Khung phải: Top 1 Đại gia & BXH truyện -->
         <div class="sidebar-right" id="rightSidebar">
             <div class="preview-box">
                 <h3>👑 BXH Đại Gia (Top 1)</h3>
@@ -521,10 +535,6 @@
             <div style="margin-bottom: 15px;">
                 <label style="font-size: 0.85rem; color: #a0aec0; display:block; margin-bottom:5px;">Tên độc giả:</label>
                 <input type="text" id="inputUsername" value="Chanh 🍋" style="width:100%; padding:8px; background:#1a2233; border:1px solid var(--border-color); color:#fff; border-radius:6px;">
-            </div>
-            <div style="margin-bottom: 15px;">
-                <label style="font-size: 0.85rem; color: #a0aec0; display:block; margin-bottom:5px;">Chọn Avatar / Khung cá nhân:</label>
-                <input type="text" id="inputAvatarUrl" placeholder="Nhập tên file ảnh trong thư mục assets (vd: avatar.png)" style="width:100%; padding:8px; background:#1a2233; border:1px solid var(--border-color); color:#fff; border-radius:6px;">
             </div>
             <button class="plugin-btn" style="background:var(--accent-yellow); color:#000; width:100%; font-weight:bold; padding:10px;" onclick="saveProfile()">Lưu thay đổi</button>
         </div>
@@ -581,11 +591,7 @@
 
         function saveProfile() {
             const newName = document.getElementById('inputUsername').value;
-            const newAvatar = document.getElementById('inputAvatarUrl').value;
             document.getElementById('topUsername').innerText = newName;
-            if(newAvatar) {
-                document.getElementById('topAvatarImg').src = 'assets/' + newAvatar;
-            }
             closeModal('profileModal');
             alert('Đã cập nhật thông tin cá nhân thành công!');
         }
