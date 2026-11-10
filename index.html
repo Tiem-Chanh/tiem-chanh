@@ -528,11 +528,11 @@
                 </div>
             </div>
 
-            <!-- GIAO DIỆN NHÀ -->
+            <!-- GIAO DIỆN NHÀ (Đã tách riêng kho Avatar và kho Khung) -->
             <div id="tab-house" class="view-section">
                 <div class="card-box">
                     <h2>🏠 Nhà của tôi</h2>
-                    <div style="display: flex; align-items: center; justify-content: space-between; background: var(--sidebar-bg); padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid var(--border-color);">
+                    <div style="display: flex; align-items: center; justify-content: space-between; background: var(--sidebar-bg); padding: 15px; border-radius: 10px; margin-bottom: 25px; border: 1px solid var(--border-color);">
                         <div>
                             <span style="font-size: 0.85rem; color: #a0aec0; display: block; margin-bottom: 4px;">Tên của tôi:</span>
                             <span id="houseUsername" style="font-size: 1.2rem; font-weight: bold; color: var(--accent-yellow);">Chanh 🍋</span>
@@ -540,19 +540,23 @@
                         <button class="edit-name-btn" onclick="openModal('profileModal')">Sửa tên</button>
                     </div>
 
-                    <h3>🖼️ Kho Avatar & Khung viền</h3>
-                    <p style="color: #9ca3af; font-size: 0.9rem;">Nhấn vào vật phẩm bên dưới để cài đặt làm Avatar hoặc Khung cá nhân:</p>
-                    
-                    <div class="grid-cards">
+                    <!-- KHO TÀNG AVATAR -->
+                    <h3 style="color: var(--accent-yellow); margin-bottom: 10px;">✨ Kho Avatar của tôi</h3>
+                    <div class="grid-cards" style="margin-bottom: 25px;">
                         <div class="story-card" onclick="setGear('avatar', 'avatar.png')">
                             <div class="story-thumb"><img src="assets/avatar.png" style="width:50px;height:50px;border-radius:50%;object-fit:cover;" onerror="this.src='https://via.placeholder.com/50'"></div>
-                            <b>Avatar Mặc Định</b>
-                            <div style="font-size: 0.75rem; color: var(--accent-yellow); margin-top: 4px;">Nhấn để đặt làm Avatar</div>
+                            <b>Avatar Chanh</b>
+                            <div style="font-size: 0.75rem; color: var(--accent-yellow); margin-top: 4px;">Đặt làm Avatar</div>
                         </div>
+                    </div>
+
+                    <!-- KHO TÀNG KHUNG VIỀN -->
+                    <h3 style="color: var(--accent-yellow); margin-bottom: 10px;">🖼️ Kho Khung Viền của tôi</h3>
+                    <div class="grid-cards">
                         <div class="story-card" onclick="setGear('frame', 'frame.png')">
                             <div class="story-thumb"><img src="assets/frame.png" style="width:50px;height:50px;object-fit:contain;" onerror="this.src='https://via.placeholder.com/50'"></div>
-                            <b>Khung Chanh Xịn</b>
-                            <div style="font-size: 0.75rem; color: var(--accent-yellow); margin-top: 4px;">Nhấn để đặt làm Khung</div>
+                            <b>Khung Viền Xịn</b>
+                            <div style="font-size: 0.75rem; color: var(--accent-yellow); margin-top: 4px;">Đặt làm Khung</div>
                         </div>
                     </div>
                 </div>
@@ -665,7 +669,6 @@
             if(tabId === 'home') { resetRightSidebar(); }
         }
 
-        // Lắng nghe sự kiện click trực tiếp vào nút Avatar ở thanh topbar để chuyển tab mượt mà
         document.getElementById('avatarProfileBtn').addEventListener('click', function(e) {
             e.stopPropagation();
             switchTab('house');
