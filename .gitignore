@@ -12,6 +12,11 @@ logs/
 *.log
 *.tmp
 *.bak
+node_modules/
+.data/
+.env
+coverage/
+test-results/
 
 
 # Keep only the root project introduction in Markdown
