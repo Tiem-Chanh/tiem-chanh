@@ -24,6 +24,7 @@
             --sidebar-bg: #e5e7eb;
         }
 
+        /* CHỐNG BÔI ĐEN / CHỐNG COPY NỘI DUNG */
         body {
             background-color: var(--bg-dark);
             color: var(--text-main);
@@ -35,6 +36,10 @@
             flex-direction: column;
             min-height: 100vh;
             transition: background 0.3s, color 0.3s;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
         /* 1. THANH CÔNG CỤ TRÊN CÙNG */
@@ -78,6 +83,8 @@
             outline: none;
             width: 100%;
             box-sizing: border-box;
+            -webkit-user-select: text;
+            user-select: text;
         }
 
         .search-bar::before {
@@ -153,7 +160,7 @@
             overflow: hidden;
         }
 
-        /* Khung trái: Chứa Gif chanh & menu đầy đủ (Trang chủ, Nhà, Túi, Cửa hàng, Khám phá) */
+        /* Khung trái: Menu đầy đủ */
         .sidebar-left {
             width: 220px;
             background: var(--sidebar-bg);
@@ -277,7 +284,7 @@
             font-size: 1.5rem;
         }
 
-        /* Khung phải: Đầy đủ 3 BXH Đại Gia (Xu, Trồng Cây, Thời Gian) */
+        /* Khung phải: BXH Đại gia */
         .sidebar-right {
             width: 300px;
             background: var(--sidebar-bg);
@@ -331,6 +338,19 @@
         .btn-read { background: var(--accent-yellow); color: #000; }
         .btn-save { background: var(--sidebar-bg); color: var(--text-main); border: 1px solid var(--border-color) !important; }
 
+        /* Nút sửa tên trong giao diện Nhà */
+        .edit-name-btn {
+            background: var(--accent-yellow);
+            color: #000;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-left: 10px;
+        }
+
         /* 3. PLUGIN LỦNG LƠ GÓC PHẢI DƯỚI */
         .floating-plugin {
             position: fixed;
@@ -382,6 +402,8 @@
             max-width: 450px;
             color: var(--text-main);
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            -webkit-user-select: text;
+            user-select: text;
         }
 
         .modal-header {
@@ -423,7 +445,8 @@
                 <span class="notif-badge">3</span>
             </div>
 
-            <div class="user-profile-btn" onclick="openModal('profileModal')">
+            <!-- Bấm vào avatar/khung ở đây sẽ nhảy thẳng sang Giao diện nhà -->
+            <div class="user-profile-btn" onclick="switchTab('house')">
                 <div class="user-profile-container">
                     <img src="assets/avatar.png" alt="Avatar" class="avatar-img" id="topAvatarImg" onerror="this.src='https://via.placeholder.com/30'">
                     <img src="assets/frame.png" alt="Frame" class="frame-img" id="topFrameImg" onerror="this.style.display='none'">
@@ -437,7 +460,7 @@
 
     <!-- 2. BỐ CỤC 3 KHUNG CHÍNH -->
     <div class="main-layout">
-        <!-- Khung trái: Đầy đủ Gif chanh, Trang chủ, Nhà, Túi, Cửa hàng, Khám phá -->
+        <!-- Khung trái -->
         <div class="sidebar-left">
             <div class="sidebar-gif-container">
                 <img src="assets/Gif%20nền%20navy.gif" alt="Gif Chanh" onerror="this.src='assets/Gif của navy.gif'">
@@ -445,7 +468,7 @@
             <div class="nav-item active" onclick="switchTab('home')">
                 <img src="assets/Trang chủ.png" alt="Trang chủ"> Trang chủ
             </div>
-            <div class="nav-item" onclick="switchTab('home')">
+            <div class="nav-item" onclick="switchTab('house')">
                 <img src="assets/Nhà.png" alt="Nhà"> Nhà
             </div>
             <div class="nav-item" onclick="switchTab('library')">
@@ -466,8 +489,6 @@
             
             <!-- TRANG CHỦ -->
             <div id="tab-home" class="view-section active">
-                
-                <!-- BXH Nổi tiếng nhất -->
                 <div class="card-box">
                     <h2><img src="assets/Bxh tiếng.png" alt="Icon"> BXH Nổi tiếng nhất</h2>
                     <div class="grid-cards">
@@ -479,14 +500,9 @@
                             <div class="story-thumb">2️⃣ 📖</div>
                             <b>Tin Tức Tố</b>
                         </div>
-                        <div class="story-card" onclick="selectStory('Hải Yến Tầm Phong', 'Thanh xuân vườn trường...')">
-                            <div class="story-thumb">3️⃣ 📖</div>
-                            <b>Hải Yến Tầm Phong</b>
-                        </div>
                     </div>
                 </div>
 
-                <!-- BXH Yêu thích nhất -->
                 <div class="card-box">
                     <h2><img src="assets/Bxh yêu thích.png" alt="Icon"> BXH Yêu thích nhất</h2>
                     <div class="grid-cards">
@@ -494,14 +510,9 @@
                             <div class="story-thumb">1️⃣ ✨</div>
                             <b>Hải Yến Tầm Phong</b>
                         </div>
-                        <div class="story-card" onclick="selectStory('Đông Vực Cô Độc', 'Cosmic Horror cuốn hút...')">
-                            <div class="story-thumb">2️⃣ ✨</div>
-                            <b>Đông Vực Cô Độc</b>
-                        </div>
                     </div>
                 </div>
 
-                <!-- List tất cả các truyện -->
                 <div class="card-box">
                     <h2>📚 Danh sách tất cả truyện</h2>
                     <div class="grid-cards">
@@ -509,21 +520,42 @@
                             <div class="story-thumb">📖</div>
                             <b>Đông Vực Cô Độc</b>
                         </div>
-                        <div class="story-card" onclick="selectStory('Tôi Thích Tin Tức Tố Của Cậu', 'Romance ngọt ngào...')">
-                            <div class="story-thumb">📖</div>
-                            <b>Tin Tức Tố</b>
-                        </div>
-                        <div class="story-card" onclick="selectStory('Hải Yến Tầm Phong', 'Thanh xuân vườn trường...')">
-                            <div class="story-thumb">✨</div>
-                            <b>Hải Yến Tầm Phong</b>
-                        </div>
                         <div class="story-card" onclick="selectStory('Mịch Hải Chi Cương', 'Truyện mới cập bến...')">
                             <div class="story-thumb">🌊</div>
                             <b>Mịch Hải Chi Cương</b>
                         </div>
                     </div>
                 </div>
+            </div>
 
+            <!-- GIAO DIỆN NHÀ (Có tên của tôi, nút sửa tên và quản lý Avatar/Khung) -->
+            <div id="tab-house" class="view-section">
+                <div class="card-box">
+                    <h2>🏠 Nhà của tôi</h2>
+                    <div style="display: flex; align-items: center; justify-content: space-between; background: var(--sidebar-bg); padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid var(--border-color);">
+                        <div>
+                            <span style="font-size: 0.85rem; color: #a0aec0; display: block; margin-bottom: 4px;">Tên của tôi:</span>
+                            <span id="houseUsername" style="font-size: 1.2rem; font-weight: bold; color: var(--accent-yellow);">Chanh 🍋</span>
+                        </div>
+                        <button class="edit-name-btn" onclick="openModal('profileModal')">Sửa tên</button>
+                    </div>
+
+                    <h3>🖼️ Kho Avatar & Khung viền</h3>
+                    <p style="color: #9ca3af; font-size: 0.9rem;">Nhấn vào vật phẩm bên dưới để cài đặt làm Avatar hoặc Khung cá nhân:</p>
+                    
+                    <div class="grid-cards">
+                        <div class="story-card" onclick="setGear('avatar', 'avatar.png')">
+                            <div class="story-thumb"><img src="assets/avatar.png" style="width:50px;height:50px;border-radius:50%;object-fit:cover;" onerror="this.src='https://via.placeholder.com/50'"></div>
+                            <b>Avatar Mặc Định</b>
+                            <div style="font-size: 0.75rem; color: var(--accent-yellow); margin-top: 4px;">Nhấn để đặt làm Avatar</div>
+                        </div>
+                        <div class="story-card" onclick="setGear('frame', 'frame.png')">
+                            <div class="story-thumb"><img src="assets/frame.png" style="width:50px;height:50px;object-fit:contain;" onerror="this.src='https://via.placeholder.com/50'"></div>
+                            <b>Khung Chanh Xịn</b>
+                            <div style="font-size: 0.75rem; color: var(--accent-yellow); margin-top: 4px;">Nhấn để đặt làm Khung</div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- TÚI MUA HÀNG -->
@@ -537,26 +569,13 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="card-box">
-                    <h2>🕒 Truyện đã đọc gần đây & Tiến độ</h2>
-                    <div style="font-size: 0.9rem; line-height: 1.6;">
-                        <p>📖 <b>Đông Vực Cô Độc</b> — Đang ở: <i>Chương 10</i></p>
-                        <p>📖 <b>Tôi Thích Tin Tức Tố Của Cậu</b> — Đang ở: <i>Chương 20</i></p>
-                    </div>
-                </div>
             </div>
 
             <!-- CỬA HÀNG -->
             <div id="tab-shop" class="view-section">
                 <div class="card-box">
                     <h2>🛒 Cửa hàng Tiệm Chanh</h2>
-                    <p style="color: #9ca3af; font-size: 0.9rem;">Mua sắm Avatar, khung viền độc quyền và các loại hạt giống mầm cây!</p>
-                    <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
-                        <span style="background: var(--sidebar-bg); padding: 8px 15px; border-radius: 8px; border: 1px solid var(--border-color);">✨ Avatar độc quyền</span>
-                        <span style="background: var(--sidebar-bg); padding: 8px 15px; border-radius: 8px; border: 1px solid var(--border-color);">🖼️ Khung viền chanh xịn</span>
-                        <span style="background: var(--sidebar-bg); padding: 8px 15px; border-radius: 8px; border: 1px solid var(--border-color);">🌱 Hạt giống vườn ươm</span>
-                    </div>
+                    <p style="color: #9ca3af; font-size: 0.9rem;">Mua sắm Avatar, khung viền độc quyền và hạt giống mầm cây!</p>
                 </div>
             </div>
 
@@ -564,20 +583,12 @@
             <div id="tab-explore" class="view-section">
                 <div class="card-box">
                     <h2>🧭 Khám phá theo Tags</h2>
-                    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;">
-                        <span style="background: var(--sidebar-bg); padding: 6px 14px; border-radius: 15px; border: 1px solid var(--border-color); cursor: pointer;">#Hiện đại</span>
-                        <span style="background: var(--sidebar-bg); padding: 6px 14px; border-radius: 15px; border: 1px solid var(--border-color); cursor: pointer;">#Kinh dị</span>
-                        <span style="background: var(--sidebar-bg); padding: 6px 14px; border-radius: 15px; border: 1px solid var(--border-color); cursor: pointer;">#Nhẹ nhàng</span>
-                        <span style="background: var(--sidebar-bg); padding: 6px 14px; border-radius: 15px; border: 1px solid var(--border-color); cursor: pointer;">#BoyLove</span>
-                    </div>
-                    <h2>⭐ Đề cử từ Chủ Tiệm</h2>
-                    <p style="color: #9ca3af; font-size: 0.9rem;">Danh sách những bộ truyện tâm đắc nhất do chính tay Chanh chọn lọc.</p>
                 </div>
             </div>
 
         </div>
 
-        <!-- Khung phải: Đầy đủ 3 BXH Đại Gia (Xu, Trồng Cây, Thời Gian) -->
+        <!-- Khung phải: BXH Đại Gia -->
         <div class="sidebar-right" id="rightSidebar">
             <div class="preview-box">
                 <h3><img src="assets/Đại gia.png" alt="Đại gia"> BXH Đại Gia Xu (Top 1)</h3>
@@ -619,30 +630,21 @@
             </div>
             <div class="notif-item">📢 Chủ nhà vừa đăng chương mới truyện <i>Đông Vực Cô Độc</i>.</div>
             <div class="notif-item">💬 Bình luận của bạn đã được chủ tiệm trả lời.</div>
-            <div class="notif-item">🌱 Thu hoạch thành công cây Chanh Vàng nhận được <b>500 xu chanh</b>!</div>
         </div>
     </div>
 
-    <!-- MODAL CHỈNH SỬA PROFILE CÁ NHÂN (Đầy đủ Tên, Avatar, Khung) -->
+    <!-- MODAL SỬA TÊN -->
     <div class="modal-overlay" id="profileModal">
         <div class="modal-box">
             <div class="modal-header">
-                <h3>⚙️ Chỉnh sửa thông tin cá nhân</h3>
+                <h3>✏️ Sửa tên độc giả</h3>
                 <button class="close-modal" onclick="closeModal('profileModal')">×</button>
             </div>
-            <div style="margin-bottom: 12px;">
-                <label style="font-size: 0.8rem; color: #a0aec0; display:block; margin-bottom:4px;">Tên độc giả:</label>
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 0.85rem; color: #a0aec0; display:block; margin-bottom:5px;">Tên mới:</label>
                 <input type="text" id="inputUsername" value="Chanh 🍋" style="width:100%; padding:8px; background:#1a2233; border:1px solid var(--border-color); color:#fff; border-radius:6px; box-sizing:border-box;">
             </div>
-            <div style="margin-bottom: 12px;">
-                <label style="font-size: 0.8rem; color: #a0aec0; display:block; margin-bottom:4px;">Tên file Avatar (trong assets):</label>
-                <input type="text" id="inputAvatarFile" value="avatar.png" style="width:100%; padding:8px; background:#1a2233; border:1px solid var(--border-color); color:#fff; border-radius:6px; box-sizing:border-box;">
-            </div>
-            <div style="margin-bottom: 15px;">
-                <label style="font-size: 0.8rem; color: #a0aec0; display:block; margin-bottom:4px;">Tên file Khung (trong assets):</label>
-                <input type="text" id="inputFrameFile" value="frame.png" style="width:100%; padding:8px; background:#1a2233; border:1px solid var(--border-color); color:#fff; border-radius:6px; box-sizing:border-box;">
-            </div>
-            <button class="plugin-btn" style="background:var(--accent-yellow); color:#000; width:100%; font-weight:bold; padding:10px;" onclick="saveProfile()">Lưu thay đổi</button>
+            <button class="plugin-btn" style="background:var(--accent-yellow); color:#000; width:100%; font-weight:bold; padding:10px;" onclick="saveName()">Lưu tên mới</button>
         </div>
     </div>
 
@@ -652,7 +654,13 @@
             document.getElementById('tab-' + tabId).classList.add('active');
 
             document.querySelectorAll('.sidebar-left .nav-item').forEach(el => el.classList.remove('active'));
-            event.currentTarget.classList.add('active');
+            
+            // Highlight đúng nút menu tương ứng
+            if(tabId === 'home') document.querySelectorAll('.sidebar-left .nav-item')[0].classList.add('active');
+            if(tabId === 'house') document.querySelectorAll('.sidebar-left .nav-item')[1].classList.add('active');
+            if(tabId === 'library') document.querySelectorAll('.sidebar-left .nav-item')[2].classList.add('active');
+            if(tabId === 'shop') document.querySelectorAll('.sidebar-left .nav-item')[3].classList.add('active');
+            if(tabId === 'explore') document.querySelectorAll('.sidebar-left .nav-item')[4].classList.add('active');
 
             if(tabId === 'home') { resetRightSidebar(); }
         }
@@ -702,21 +710,25 @@
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-        function saveProfile() {
+        function saveName() {
             const newName = document.getElementById('inputUsername').value;
-            const avatarFile = document.getElementById('inputAvatarFile').value;
-            const frameFile = document.getElementById('inputFrameFile').value;
-            
             document.getElementById('topUsername').innerText = newName;
-            if(avatarFile) {
-                document.getElementById('topAvatarImg').src = 'assets/' + avatarFile;
-            }
-            if(frameFile) {
-                document.getElementById('topFrameImg').src = 'assets/' + frameFile;
-                document.getElementById('topFrameImg').style.display = 'block';
-            }
+            document.getElementById('houseUsername').innerText = newName;
             closeModal('profileModal');
-            alert('Đã cập nhật thông tin cá nhân, Avatar và Khung thành công!');
+            alert('Đổi tên thành công!');
+        }
+
+        // Cài đặt trực tiếp Avatar hoặc Khung khi nhấn vào vật phẩm trong giao diện Nhà
+        function setGear(type, filename) {
+            if(type === 'avatar') {
+                document.getElementById('topAvatarImg').src = 'assets/' + filename;
+                alert('Đã đặt làm Avatar thành công! ✨');
+            } else if(type === 'frame') {
+                const frameEl = document.getElementById('topFrameImg');
+                frameEl.src = 'assets/' + filename;
+                frameEl.style.display = 'block';
+                alert('Đã đặt làm Khung viền thành công! 🖼️');
+            }
         }
 
         let currentSize = 16;
@@ -730,19 +742,20 @@
         function toggleTheme() {
             document.body.classList.toggle('light-mode');
         }
-        // Chặn bôi đen, chuột phải và các phím tắt trích xuất nội dung
-document.addEventListener('contextmenu', e => e.preventDefault());
-document.addEventListener('selectstart', e => e.preventDefault());
-document.addEventListener('keydown', function(e) {
-    if (
-        e.key === 'F12' || 
-        (e.ctrlKey && (e.key === 'c' || e.key === 'x' || e.key === 'u' || e.key === 's' || e.key === 'a')) ||
-        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C'))
-    ) {
-        e.preventDefault();
-        return false;
-    }
-});
+
+        // Chống bôi đen, chuột phải, phím tắt trích xuất
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('selectstart', e => e.preventDefault());
+        document.addEventListener('keydown', function(e) {
+            if (
+                e.key === 'F12' || 
+                (e.ctrlKey && (e.key === 'c' || e.key === 'x' || e.key === 'u' || e.key === 's' || e.key === 'a')) ||
+                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C'))
+            ) {
+                e.preventDefault();
+                return false;
+            }
+        });
     </script>
 
 </body>
