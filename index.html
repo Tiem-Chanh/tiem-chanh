@@ -331,7 +331,6 @@
         .chapter-paragraph:hover {
             background: rgba(255, 255, 0, 0.03);
         }
-        /* Icon tin nhắn nhỏ bé xíu nằm bên phải mỗi đoạn */
         .inline-comment-btn {
             position: absolute;
             right: 5px;
@@ -492,6 +491,7 @@
             
             <!-- TRANG CHỦ -->
             <div id="tab-home" class="view-section active">
+                <!-- BXH Nổi Tiếng Nhất -->
                 <div class="card-box">
                     <h2><img src="assets/Bxh tiếng.png" alt="Icon" style="width:24px;height:24px;object-fit:contain;"> BXH Nổi tiếng nhất</h2>
                     <div class="grid-cards">
@@ -502,6 +502,21 @@
                         <div class="story-card" onclick="selectStory('Tôi Thích Tin Tức Tố Của Cậu', 'Romance ngọt ngào...')">
                             <div class="story-thumb">2️⃣ 📖</div>
                             <b>Tin Tức Tố</b>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BXH Yêu Thích Nhất (Đã khôi phục hoàn chỉnh!) -->
+                <div class="card-box">
+                    <h2><img src="assets/Bxh yêu thích.png" alt="Icon" style="width:24px;height:24px;object-fit:contain;"> BXH Yêu thích nhất</h2>
+                    <div class="grid-cards">
+                        <div class="story-card" onclick="selectStory('Hải Yến Tầm Phong', 'Thanh xuân vườn trường...')">
+                            <div class="story-thumb">1️⃣ ✨</div>
+                            <b>Hải Yến Tầm Phong</b>
+                        </div>
+                        <div class="story-card" onclick="selectStory('Đông Vực Cô Độc', 'Cosmic Horror cuốn hút...')">
+                            <div class="story-thumb">2️⃣ ✨</div>
+                            <b>Đông Vực Cô Độc</b>
                         </div>
                     </div>
                 </div>
@@ -674,7 +689,6 @@
             </div>
             <p id="targetParaText" style="font-size: 0.85rem; color: #9ca3af; font-style: italic; border-left: 3px solid var(--accent-yellow); padding-left: 8px; margin-bottom: 15px;"></p>
             
-            <!-- Khu xem bình luận của mọi người -->
             <div style="background:var(--sidebar-bg); padding:10px; border-radius:8px; max-height:120px; overflow-y:auto; margin-bottom:12px; border:1px solid var(--border-color); font-size:0.85rem;">
                 <p style="margin:0 0 6px 0;"><b>Lannyy:</b> Mê đoạn này quá đi mất! 🍋</p>
                 <p style="margin:0;"><b>Chanh Chanh:</b> Chuẩn gu luon bẹn ơi ✨</p>
@@ -686,7 +700,6 @@
 
             <textarea id="paraCommentInput" placeholder="Viết cảm nghĩ của bạn..." style="width:100%; height:60px; background:#1a2233; border:1px solid var(--border-color); color:#fff; border-radius:6px; box-sizing:border-box; padding:8px; margin-bottom:10px;"></textarea>
             
-            <!-- Kho Emoji cá nhân -->
             <div style="margin-bottom: 15px;">
                 <span style="font-size: 0.75rem; color: #a0aec0; display:block; margin-bottom:5px;">Emoji cá nhân của Chanh:</span>
                 <div style="display: flex; gap: 8px;">
