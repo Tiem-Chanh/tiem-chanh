@@ -445,8 +445,8 @@
                 <span class="notif-badge">3</span>
             </div>
 
-            <!-- Bấm vào avatar/khung ở đây sẽ nhảy thẳng sang Giao diện nhà -->
-            <div class="user-profile-btn" onclick="switchTab('house')">
+            <!-- Nút bấm avatar dẫn trực tiếp sang Giao diện Nhà -->
+            <div class="user-profile-btn" id="avatarProfileBtn" onclick="switchTab('house')">
                 <div class="user-profile-container">
                     <img src="assets/avatar.png" alt="Avatar" class="avatar-img" id="topAvatarImg" onerror="this.src='https://via.placeholder.com/30'">
                     <img src="assets/frame.png" alt="Frame" class="frame-img" id="topFrameImg" onerror="this.style.display='none'">
@@ -528,7 +528,7 @@
                 </div>
             </div>
 
-            <!-- GIAO DIỆN NHÀ (Có tên của tôi, nút sửa tên và quản lý Avatar/Khung) -->
+            <!-- GIAO DIỆN NHÀ -->
             <div id="tab-house" class="view-section">
                 <div class="card-box">
                     <h2>🏠 Nhà của tôi</h2>
@@ -591,21 +591,21 @@
         <!-- Khung phải: BXH Đại Gia -->
         <div class="sidebar-right" id="rightSidebar">
             <div class="preview-box">
-                <h3><img src="assets/Đại gia.png" alt="Đại gia"> BXH Đại Gia Xu </h3>
+                <h3><img src="assets/Đại gia.png" alt="Đại gia"> BXH Đại Gia Xu</h3>
                 <div style="font-size: 0.85rem; line-height: 1.6; text-align: center; padding: 5px 0;">
                     👑 <b>ABCD...</b><br>
                     <span style="color: var(--accent-yellow); font-weight: bold;">300,000 xu chanh</span>
                 </div>
             </div>
             <div class="preview-box">
-                <h3><img src="assets/Đại gia.png" alt="Đại gia"> BXH Trồng Cây </h3>
+                <h3><img src="assets/Đại gia.png" alt="Đại gia"> BXH Trồng Cây</h3>
                 <div style="font-size: 0.85rem; line-height: 1.6; text-align: center; padding: 5px 0;">
                     🌱 <b>Chanh Chanh</b><br>
                     <span style="color: var(--accent-yellow); font-weight: bold;">50 cây chanh vàng</span>
                 </div>
             </div>
             <div class="preview-box">
-                <h3><img src="assets/Đại gia.png" alt="Đại gia"> BXH Thời Gian </h3>
+                <h3><img src="assets/Đại gia.png" alt="Đại gia"> BXH Thời Gian</h3>
                 <div style="font-size: 0.85rem; line-height: 1.6; text-align: center; padding: 5px 0;">
                     ⏳ <b>Lannyy</b><br>
                     <span style="color: var(--accent-yellow); font-weight: bold;">1,200 giờ đọc</span>
@@ -655,15 +655,21 @@
 
             document.querySelectorAll('.sidebar-left .nav-item').forEach(el => el.classList.remove('active'));
             
-            // Highlight đúng nút menu tương ứng
-            if(tabId === 'home') document.querySelectorAll('.sidebar-left .nav-item')[0].classList.add('active');
-            if(tabId === 'house') document.querySelectorAll('.sidebar-left .nav-item')[1].classList.add('active');
-            if(tabId === 'library') document.querySelectorAll('.sidebar-left .nav-item')[2].classList.add('active');
-            if(tabId === 'shop') document.querySelectorAll('.sidebar-left .nav-item')[3].classList.add('active');
-            if(tabId === 'explore') document.querySelectorAll('.sidebar-left .nav-item')[4].classList.add('active');
+            const navItems = document.querySelectorAll('.sidebar-left .nav-item');
+            if(tabId === 'home') navItems[0].classList.add('active');
+            if(tabId === 'house') navItems[1].classList.add('active');
+            if(tabId === 'library') navItems[2].classList.add('active');
+            if(tabId === 'shop') navItems[3].classList.add('active');
+            if(tabId === 'explore') navItems[4].classList.add('active');
 
             if(tabId === 'home') { resetRightSidebar(); }
         }
+
+        // Lắng nghe sự kiện click trực tiếp vào nút Avatar ở thanh topbar để chuyển tab mượt mà
+        document.getElementById('avatarProfileBtn').addEventListener('click', function(e) {
+            e.stopPropagation();
+            switchTab('house');
+        });
 
         function selectStory(title, desc) {
             const rightSidebar = document.getElementById('rightSidebar');
@@ -684,21 +690,21 @@
         function resetRightSidebar() {
             document.getElementById('rightSidebar').innerHTML = `
                 <div class="preview-box">
-                    <h3><img src="assets/Đại gia.png" alt="Đại gia"> BXH Đại Gia Xu (Top 1)</h3>
+                    <h3><img src="assets/Đại gia.png" alt="Đại gia"> BXH Đại Gia Xu</h3>
                     <div style="font-size: 0.85rem; line-height: 1.6; text-align: center; padding: 5px 0;">
                         👑 <b>ABCD...</b><br>
                         <span style="color: var(--accent-yellow); font-weight: bold;">300,000 xu chanh</span>
                     </div>
                 </div>
                 <div class="preview-box">
-                    <h3><img src="assets/Đại gia.png" alt="Đại gia"> BXH Trồng Cây (Top 1)</h3>
+                    <h3><img src="assets/Đại gia.png" alt="Đại gia"> BXH Trồng Cây</h3>
                     <div style="font-size: 0.85rem; line-height: 1.6; text-align: center; padding: 5px 0;">
                         🌱 <b>Chanh Chanh</b><br>
                         <span style="color: var(--accent-yellow); font-weight: bold;">50 cây chanh vàng</span>
                     </div>
                 </div>
                 <div class="preview-box">
-                    <h3><img src="assets/Đại gia.png" alt="Đại gia"> BXH Thời Gian (Top 1)</h3>
+                    <h3><img src="assets/Đại gia.png" alt="Đại gia"> BXH Thời Gian</h3>
                     <div style="font-size: 0.85rem; line-height: 1.6; text-align: center; padding: 5px 0;">
                         ⏳ <b>Lannyy</b><br>
                         <span style="color: var(--accent-yellow); font-weight: bold;">1,200 giờ đọc</span>
@@ -718,7 +724,6 @@
             alert('Đổi tên thành công!');
         }
 
-        // Cài đặt trực tiếp Avatar hoặc Khung khi nhấn vào vật phẩm trong giao diện Nhà
         function setGear(type, filename) {
             if(type === 'avatar') {
                 document.getElementById('topAvatarImg').src = 'assets/' + filename;
