@@ -1,34 +1,6 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="robots" content="noindex,nofollow">
-  <title>Quản trị — Tiệm Chanh</title>
-  <link rel="icon" href="/public/assets/icon/Trang%20ch%E1%BB%A7.png">
-  <link rel="stylesheet" href="/index.css">
-  <link rel="stylesheet" href="/admin.css">
-  <script type="module" src="/admin.js"></script>
-</head>
-<body>
-  <header class="admin-header"><a href="/" aria-label="Về Tiệm Chanh"><img src="/public/assets/Logo.png" alt="Tiệm Chanh" width="140" height="64"></a><strong>Quản trị nội dung</strong><button id="logout" hidden>Đăng xuất</button></header>
-  <main class="admin-main">
-    <p id="message" role="status" aria-live="polite"></p>
-    <section id="login-panel" class="panel login-panel" hidden>
-      <h1>Đăng nhập quản trị</h1><p>Chỉ tài khoản chủ sở hữu được phép quản lý nội dung.</p>
-      <form id="login-form">
-        <div class="form-field"><label for="username">Tên đăng nhập</label><input id="username" name="username" autocomplete="username" required></div>
-        <div class="form-field"><label for="password">Mật khẩu</label><input id="password" name="password" type="password" autocomplete="current-password" required maxlength="256"></div>
-        <button type="submit" class="primary">Đăng nhập</button>
-      </form>
-    </section>
-    <section id="dashboard" hidden>
-      <div class="section-head wrap"><h1>Truyện và tài nguyên</h1><div class="row wrap"><button data-action="refresh">Làm mới</button><button data-action="asset-new">Tải tài nguyên</button><button class="primary" data-action="book-new">+ Tạo truyện</button></div></div>
-      <label class="sr-only" for="book-search">Tìm truyện hoặc tác giả</label><input id="book-search" type="search" placeholder="Tìm truyện, tác giả…">
-      <div id="books" class="stack"></div>
-      <section class="panel"><h2>Tài nguyên đã tải lên</h2><div id="assets" class="asset-grid"></div></section>
-    </section>
-  </main>
-  <dialog id="editor" aria-labelledby="editor-title"><div class="dialog-heading"><h2 id="editor-title"></h2><button data-action="close" class="quiet" aria-label="Đóng">×</button></div><div id="editor-body"></div><p id="editor-error" role="alert"></p></dialog>
-</body>
-</html>
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Studio chủ web — Tiệm Chanh</title><link rel="stylesheet" href="/index.css"><link rel="stylesheet" href="/admin.css"><script type="module" src="/admin.js"></script></head>
+<body><header class="admin-header"><a href="/"><img src="/public/assets/Logo.png" alt="Tiệm Chanh"></a><div><strong>Studio chủ web</strong><small id="owner">Khu vực riêng tư</small></div><button id="logout" hidden>Đăng xuất</button></header>
+<main class="admin-main"><p id="message" role="status"></p><section id="login" class="panel login" hidden><div class="eyebrow">Chỉ dành cho chủ web</div><h1>Đăng nhập Studio</h1><p>Tạo truyện, viết chương, giữ bản nháp và xuất bản nội dung của bạn.</p><form id="login-form"><div class="form-field"><label>Tên đăng nhập<input name="username" autocomplete="username" required></label></div><div class="form-field"><label>Mật khẩu<input name="password" type="password" autocomplete="current-password" maxlength="256" required></label></div><button class="primary">Vào Studio</button></form></section>
+<section id="dashboard" hidden><div class="hero"><div><div class="eyebrow">Không gian viết của bạn</div><h1>Truyện của bạn</h1><p>Viết chương trong một workspace tập trung, giống trải nghiệm soạn thảo Wattpad.</p></div><button class="primary" data-action="new-book">+ Truyện mới</button></div><nav class="tabs"><button data-action="tab" data-tab="stories" aria-selected="true">Truyện</button><button data-action="tab" data-tab="drafts">Bản nháp <span id="draft-count"></span></button><button data-action="tab" data-tab="assets">Tài nguyên</button></nav><section id="stories"><div class="toolbar"><input id="search" type="search" placeholder="Tìm truyện, tác giả…"><button data-action="asset">Tải ảnh</button></div><div id="books" class="story-grid"></div></section><section id="drafts" hidden><div id="draft-list" class="stack"></div></section><section id="assets" hidden><div class="section-head"><div><h2>Tài nguyên</h2><p>Avatar, khung, emoji và ảnh bìa đã tải lên.</p></div><button data-action="asset">Tải tài nguyên</button></div><div id="asset-list" class="asset-grid"></div></section></section></main>
+<dialog id="modal"><div class="dialog-heading"><h2 id="modal-title"></h2><button data-action="close" class="quiet" aria-label="Đóng">×</button></div><div id="modal-body"></div><p id="modal-error" role="alert"></p></dialog><dialog id="writer" class="writer"><div id="writer-body"></div></dialog></body></html>
